@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>一個數字錯誤，德國整個網路垮了 3 小時</title>
+  <style>
+    :root {
+      --bg: #0e1117;
+      --surface: #161b27;
+      --accent: #f0a500;
+      --accent2: #4a9eff;
+      --text: #e4e8f0;
+      --muted: #8b95a8;
+      --border: #232a3b;
+      --max-w: 720px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', 'Noto Serif TC', serif;
+      line-height: 1.85;
+      padding: 2rem 1.25rem 5rem;
+    }
+
+    .wrapper {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: system-ui, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.2em 0.7em;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
+      line-height: 1.25;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-family: system-ui, sans-serif;
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--accent2);
+      padding-left: 1rem;
+    }
+
+    .meta {
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .cover {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+      display: block;
+      border: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 2.8rem 0 0.8rem;
+      color: var(--accent);
+      font-family: system-ui, sans-serif;
+    }
+
+    p {
+      margin-bottom: 1.3rem;
+      color: var(--text);
+    }
+
+    .highlight-box {
+      background: var(--surface);
+      border-left: 4px solid var(--accent2);
+      border-radius: 4px;
+      padding: 1.2rem 1.4rem;
+      margin: 2rem 0;
+      font-family: system-ui, sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .highlight-box strong {
+      color: var(--accent2);
+    }
+
+    .callout {
+      background: linear-gradient(135deg, #1a2236, #1e2a1a);
+      border: 1px solid #2d4a2d;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2.5rem 0;
+      font-family: system-ui, sans-serif;
+    }
+
+    .callout .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #5cb85c;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .callout p {
+      color: #c8e6c8;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .timeline {
+      margin: 2rem 0;
+      border-left: 2px solid var(--border);
+      padding-left: 1.5rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.2rem;
+      font-family: system-ui, sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.9rem;
+      top: 0.45em;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+
+    .timeline-item .time {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-item .desc {
+      color: var(--text);
+    }
+
+    .footer-note {
+      font-family: system-ui, sans-serif;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 1.2rem;
+      color: var(--muted);
+      font-style: italic;
+      margin: 2rem 0;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 500px) {
+      body { padding: 1.25rem 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="tag">基礎設施 · 數位安全</div>
+
+    <h1>一個數字錯誤，德國整個網路垮了 3 小時</h1>
+
+    <p class="subtitle">不是駭客攻擊，不是天災，只是一個例行維護——然後 1700 萬個網站消失了。</p>
+
+    <div class="meta">2026 年 5 月 ‧ 資料來源：DENIC eG 官方事件分析報告（2026.05.08）</div>
+
+    <img src="../../../images/de-outage-cover.png" alt="德國網路基礎設施脆弱性示意圖" class="cover" />
+
+    <p>2026 年 5 月 5 日，德國的網路出現了一件奇事。</p>
+
+    <p>不是被駭客攻擊，不是有人剪斷海底電纜，也不是什麼大規模停電。<br>
+    就是一個非常普通的「例行維護」——一個定期更換密碼的作業——出了一個小 bug。<br>
+    結果呢？德國所有 <strong>.de</strong> 結尾的網站，在全球大量使用者面前，消失了將近 3 小時。</p>
+
+    <h2>發生了什麼事？</h2>
+
+    <p>你可以把網路的運作想成這樣：當你打開瀏覽器輸入 <code>google.de</code>，你的電腦會先問一個「電話簿」（DNS 系統），「這個網站在哪裡？」，電話簿回答你 IP 位址，你才連得進去。</p>
+
+    <p>德國所有 <strong>.de</strong> 的域名，都由一間叫 <strong>DENIC</strong> 的機構統一管理——這是一個非營利組織，角色是整個德國國家域名的守門人。</p>
+
+    <p>那天他們在做一件很正常的事：定期更換系統用來「簽名驗證」的密鑰，就像定期換鎖一樣。但有一段自家寫的程式碼出了 bug。</p>
+
+    <div class="highlight-box">
+      <strong>Bug 的本質：</strong><br>
+      原本應該生一把新鑰匙，結果它生了三把。<br>
+      但公開掛出去讓外界認識的，只有其中一把。<br><br>
+      所以剩下的情況是：外界的系統試著驗證 .de 的資料時，有大約 <strong>三分之二的情況，驗證不過</strong>——因為鑰匙對不上。
+    </div>
+
+    <h2>更糟的是：連沒有啟用特殊保護的網站也被拖下水</h2>
+
+    <p>現代 DNS 系統有一層安全機制叫 DNSSEC，用來防止有人假冒域名。如果驗證失敗，保守的系統會選擇「不信任這筆資料」，直接拒絕回應。</p>
+
+    <p>.de 的簽名壞掉之後，整個 .de 的「目錄結構」都變得不可信。這代表，即使你的網站<strong>根本沒有用到 DNSSEC</strong>，你一樣被影響——因為連「這個網站不存在」的紀錄（NSEC3），也無法被正確驗證了。</p>
+
+    <blockquote>就像整棟大樓的電梯壞了，你就算住在一樓、不坐電梯，也可能出不去。</blockquote>
+
+    <h2>時間軸</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="time">5 月 5 日</div>
+        <div class="desc">DENIC 執行例行 DNSSEC 密鑰輪換作業，bug 導致三組金鑰被生成，但只有一組公鑰被公開發布。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">開始後約 0–3 小時</div>
+        <div class="desc">全球驗證型 DNS 解析器開始拒絕 .de 域名查詢；大量網站、信箱、政府服務中斷。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">緊急應對</div>
+        <div class="desc">部分大型 DNS 業者（如 Cloudflare）臨時關閉對 .de 的 DNSSEC 驗證，以恢復使用者的連線。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">5 月 5–6 日夜間</div>
+        <div class="desc">DENIC 完成修復，服務全面恢復。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">5 月 8 日</div>
+        <div class="desc">DENIC 發布詳細技術事後報告。</div>
+      </div>
+    </div>
+
+    <h2>監控系統有發現，但警報沒有被看見</h2>
+
+    <p>更值得注意的是——DENIC 的監控系統<strong>有偵測到異常</strong>。但那些警報沒有被正確處理，值班的人沒有即時接到通知。</p>
+
+    <div class="callout">
+      <div class="label">值得記住的教訓</div>
+      <p>技術上出問題，是意外。但警報系統沒有正確運作，讓這個意外拖了更長的時間。<br><br>
+      你以為的安全防線，需要定期確認它真的有在運作。</p>
+    </div>
+
+    <h2>這件事在說什麼？</h2>
+
+    <p>.de 是全球第二大的國家域名，有超過 <strong>1700 萬個網站</strong>。一個組織、一段程式碼、一個例行維護，就能在三小時內讓它全部消失。</p>
+
+    <p>這不是德國特有的問題。</p>
+
+    <p>我們現在的數位基礎建設，很多是「一個點出問題，整片跟著倒」的結構。銀行、政府網站、醫療系統、電商、email——全部都站在同一個基礎之上。</p>
+
+    <p>這次是 3 小時，下次可能是 8 小時。這次是德國，下次可能是任何地方。</p>
+
+    <blockquote>我們每天用得很順的東西，背後其實比想像中的還脆。</blockquote>
+
+    <div class="footer-note">
+      資料來源：DENIC eG 官方部落格，《Analyse des DNS-Ausfalls vom 5. Mai 2026》，2026 年 5 月 8 日發布。<br>
+      封面圖像：AI 生成（GPT Image 2）
+    </div>
+  </div>
+</body>
+</html>
