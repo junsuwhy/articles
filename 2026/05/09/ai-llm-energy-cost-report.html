@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI / LLM 能源消耗與使用成本研究整理（附來源）</title>
+  <style>
+    :root{--bg:#0b1020;--card:#121a2f;--muted:#94a3b8;--txt:#e2e8f0;--acc:#7dd3fc;--ok:#86efac;--warn:#fcd34d;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,"Noto Sans TC",system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:19px;line-height:1.75}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+    h1{font-size:2.2rem;line-height:1.25;margin:0 0 10px}
+    h2{font-size:1.6rem;margin:28px 0 10px;color:var(--acc)}
+    h3{font-size:1.2rem;margin:18px 0 8px}
+    p,li{font-size:1.05rem}
+    .meta{color:var(--muted);font-size:1rem}
+    .card{background:var(--card);border:1px solid #24314f;border-radius:16px;padding:16px 18px;margin:14px 0}
+    .kpi{font-size:2rem;font-weight:800}
+    a{color:#93c5fd;word-break:break-all}
+    code{background:#1e293b;padding:2px 6px;border-radius:6px}
+    blockquote{margin:10px 0;padding:10px 14px;border-left:4px solid #334155;background:#0f172a}
+    .tag{display:inline-block;font-size:.9rem;padding:2px 8px;border-radius:999px;background:#1e293b;color:#cbd5e1;margin-right:6px}
+    @media (max-width: 768px){
+      body{font-size:18px}
+      h1{font-size:2rem}
+      h2{font-size:1.5rem}
+      .kpi{font-size:2.1rem}
+      .wrap{padding:20px 14px 44px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>AI / LLM 能源消耗與使用成本研究整理（附來源）</h1>
+    <p class="meta">更新：2026-05-09（台灣）｜重點：能源、水資源、推論 vs 訓練、商業 ROI 論述</p>
+
+    <section class="card">
+      <span class="tag">結論先看</span>
+      <p class="kpi">技術成本在降，但可證明的商業價值不一定同步上升。</p>
+      <ul>
+        <li><strong>能源面：</strong>訓練很耗能，但在大規模產品化後，<strong>推論（inference）常成為生命週期主要能耗來源</strong>。</li>
+        <li><strong>成本面：</strong>每 token 成本長期下降，但企業端仍常卡在整合、治理、幻覺風險與流程改造成本。</li>
+        <li><strong>管理面：</strong>評估 LLM 應用要看「單位成本 × 成功率 × 人工替代率 × 風險成本」。</li>
+      </ul>
+    </section>
+
+    <h2>1) 能源與環境：主要研究共識</h2>
+    <div class="card">
+      <h3>1.1 訓練不是唯一大頭：推論可能更大</h3>
+      <p>多篇研究指出，若模型被廣泛部署，推論端總能耗可能超過訓練端，尤其高流量服務情境下更明顯。</p>
+      <ul>
+        <li>Power Hungry Processing（2023）<br><a href="https://arxiv.org/abs/2311.16863">https://arxiv.org/abs/2311.16863</a></li>
+        <li>From Words to Watts（2023）<br><a href="https://arxiv.org/abs/2310.03003">https://arxiv.org/abs/2310.03003</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>1.2 碳排與電網結構高度相關</h3>
+      <p>同樣工作負載在不同地區會有不同碳強度；資料中心能源來源（再生能源比例）會顯著改變碳足跡。</p>
+      <ul>
+        <li>LLMCarbon（2023）<br><a href="https://arxiv.org/abs/2309.14393">https://arxiv.org/abs/2309.14393</a></li>
+        <li>Google 2024 Environmental Report<br><a href="https://sustainability.google/reports/google-2024-environmental-report/">https://sustainability.google/reports/google-2024-environmental-report/</a></li>
+        <li>Microsoft Sustainability Report<br><a href="https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report">https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>1.3 水資源壓力是常被忽略的成本</h3>
+      <p>AI 工作負載除了耗電，也涉及冷卻水需求；在缺水區域會放大社會成本。</p>
+      <ul>
+        <li>Making AI Less “Thirsty”（2023）<br><a href="https://arxiv.org/abs/2304.03271">https://arxiv.org/abs/2304.03271</a></li>
+      </ul>
+    </div>
+
+    <h2>2) 成本與 ROI：怎麼看「LLM 值不值得」</h2>
+    <div class="card">
+      <h3>2.1 單位成本快速下降，但總支出未必下降</h3>
+      <p>模型/API 單價下降會刺激更大使用量（rebound effect），導致總花費可能持平甚至上升。</p>
+      <blockquote>便宜不等於省錢；只要使用量擴張速度 > 單價下降速度，總成本仍會增加。</blockquote>
+    </div>
+
+    <div class="card">
+      <h3>2.2 企業 ROI 呈現兩極化</h3>
+      <ul>
+        <li><strong>成功案例：</strong>程式輔助、客服自動化、內容生產效率提升（如 GitHub/Forrester、部分企業案例）。</li>
+        <li><strong>失敗案例：</strong>PoC 能跑、上線無法規模化；原因常是資料品質、流程落地、法遵與治理成本。</li>
+      </ul>
+      <p>參考：</p>
+      <ul>
+        <li>GitHub Copilot / Forrester TEI<br><a href="https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/">https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/</a></li>
+        <li>IEA Electricity 2025（資料中心需求趨勢）<br><a href="https://www.iea.org/reports/electricity-2025">https://www.iea.org/reports/electricity-2025</a></li>
+      </ul>
+    </div>
+
+    <h2>3) 建議採用的評估框架（實務版）</h2>
+    <div class="card">
+      <ol>
+        <li><strong>需求定義：</strong>任務是否高頻、高重複、可標準化？</li>
+        <li><strong>成本模型：</strong><code>總成本 = API/推理 + 人工審核 + 整合維運 + 治理法遵 + 失誤風險</code></li>
+        <li><strong>效益模型：</strong><code>淨效益 = 節省工時價值 + 新增收入 - 總成本</code></li>
+        <li><strong>環境模型：</strong>記錄 kWh、碳強度、用水估算，做月度追蹤。</li>
+        <li><strong>決策門檻：</strong>至少連續 2~3 個月淨效益為正，才擴大部署。</li>
+      </ol>
+    </div>
+
+    <h2>4) 參考來源（可直接點）</h2>
+    <div class="card">
+      <ul>
+        <li>LLMCarbon — <a href="https://arxiv.org/abs/2309.14393">arXiv:2309.14393</a></li>
+        <li>Power Hungry Processing — <a href="https://arxiv.org/abs/2311.16863">arXiv:2311.16863</a></li>
+        <li>From Words to Watts — <a href="https://arxiv.org/abs/2310.03003">arXiv:2310.03003</a></li>
+        <li>Making AI Less Thirsty — <a href="https://arxiv.org/abs/2304.03271">arXiv:2304.03271</a></li>
+        <li>IEA Electricity 2025 — <a href="https://www.iea.org/reports/electricity-2025">iea.org</a></li>
+        <li>Google Environmental Report 2024 — <a href="https://sustainability.google/reports/google-2024-environmental-report/">sustainability.google</a></li>
+        <li>Microsoft Sustainability Report — <a href="https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report">microsoft.com</a></li>
+      </ul>
+    </div>
+
+    <p class="meta">註：部分企業 ROI 數字來自企業白皮書或案例報告，需注意「情境依賴」與「樣本偏誤」。</p>
+  </main>
+</body>
+</html>
