@@ -3,98 +3,313 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>cPanel 是什麼？這次漏洞影響多大？（白話整理）</title>
+  <title>cPanel 黑色一週｜白話科普：你的網站可能已經中獎</title>
   <style>
-    :root{--bg:#0b1020;--card:#121a2f;--line:#24314f;--txt:#e2e8f0;--muted:#9fb0c7;--accent:#7dd3fc}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,"Noto Sans TC",system-ui,sans-serif;font-size:19px;line-height:1.8}
-    .wrap{max-width:920px;margin:0 auto;padding:30px 16px 60px}
-    h1{font-size:2.2rem;line-height:1.25;margin:0 0 10px}
-    h2{font-size:1.55rem;color:var(--accent);margin:28px 0 10px}
-    p,li{font-size:1.05rem}
-    .meta{color:var(--muted)}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
-    .big{font-size:2rem;font-weight:800;line-height:1.3}
-    a{color:#93c5fd;word-break:break-all}
-    @media (max-width: 768px){
+    :root{
+      --bg:#0b1020;
+      --card:#121a2f;
+      --card2:#0f1929;
+      --line:#24314f;
+      --txt:#e2e8f0;
+      --muted:#9fb0c7;
+      --accent:#7dd3fc;
+      --warn:#fbbf24;
+      --danger:#f87171;
+      --ok:#4ade80;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:var(--bg);
+      color:var(--txt);
+      font-family:"Noto Sans TC",Inter,system-ui,sans-serif;
+      font-size:19px;
+      line-height:1.85;
+    }
+    .wrap{max-width:860px;margin:0 auto;padding:36px 18px 72px}
+
+    /* hero */
+    .hero{margin-bottom:32px}
+    .hero h1{
+      font-size:2.4rem;
+      line-height:1.25;
+      margin-bottom:10px;
+      letter-spacing:-0.02em;
+    }
+    .hero .sub{color:var(--muted);font-size:1rem;margin-bottom:18px}
+    .hero .lead{
+      background:var(--card);
+      border-left:4px solid var(--accent);
+      border-radius:0 12px 12px 0;
+      padding:16px 20px;
+      font-size:1.1rem;
+      line-height:1.7;
+    }
+
+    /* section headers */
+    h2{
+      font-size:1.6rem;
+      color:var(--accent);
+      margin:42px 0 14px;
+      padding-bottom:8px;
+      border-bottom:1px solid var(--line);
+    }
+
+    /* cards */
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:20px 22px;
+      margin:14px 0;
+    }
+    .card p+p{margin-top:12px}
+    .card ul,.card ol{padding-left:22px;margin-top:8px}
+    .card li{margin-bottom:8px}
+
+    /* big stat */
+    .stat-block{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin:16px 0;
+    }
+    .stat{
+      flex:1 1 180px;
+      background:var(--card2);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:16px 18px;
+      text-align:center;
+    }
+    .stat .num{
+      font-size:2.4rem;
+      font-weight:800;
+      line-height:1.15;
+      color:var(--warn);
+      display:block;
+    }
+    .stat .label{font-size:0.9rem;color:var(--muted);margin-top:4px;display:block}
+
+    /* callout boxes */
+    .callout{
+      border-radius:12px;
+      padding:16px 20px;
+      margin:14px 0;
+      font-size:1rem;
+    }
+    .callout-warn{background:#2d1f0a;border:1px solid #92400e;color:#fde68a}
+    .callout-ok{background:#052e16;border:1px solid #166534;color:#bbf7d0}
+    .callout-info{background:#0c1a2e;border:1px solid var(--line);color:var(--txt)}
+
+    /* timeline */
+    .timeline{list-style:none;padding-left:0;margin-top:8px}
+    .timeline li{
+      display:flex;
+      gap:14px;
+      padding:10px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .timeline li:last-child{border-bottom:none}
+    .timeline .date{
+      flex-shrink:0;
+      color:var(--accent);
+      font-weight:700;
+      font-size:0.95rem;
+      min-width:90px;
+    }
+
+    /* checklist */
+    .checklist{list-style:none;padding-left:0}
+    .checklist li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:8px 0;
+      border-bottom:1px dashed var(--line);
+    }
+    .checklist li:last-child{border-bottom:none}
+    .checklist .icon{flex-shrink:0;font-size:1.1rem;margin-top:2px}
+
+    /* references */
+    .ref-list{list-style:none;padding-left:0}
+    .ref-list li{padding:10px 0;border-bottom:1px solid var(--line)}
+    .ref-list li:last-child{border-bottom:none}
+    .ref-list .source{font-weight:700;color:var(--txt);display:block;margin-bottom:2px}
+    a{color:#93c5fd;text-decoration:none;word-break:break-all}
+    a:hover{text-decoration:underline}
+
+    .muted{color:var(--muted);font-size:0.9rem}
+
+    @media (max-width:768px){
       body{font-size:18px}
-      h1{font-size:2rem}
-      h2{font-size:1.45rem}
-      .big{font-size:2.05rem}
-      .wrap{padding:22px 14px 48px}
+      .hero h1{font-size:2rem}
+      h2{font-size:1.4rem}
+      .stat .num{font-size:2rem}
+      .wrap{padding:22px 14px 52px}
+      .stat{flex:1 1 140px}
     }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <h1>cPanel 是什麼？誰做的？這次漏洞影響有多大？</h1>
-    <p class="meta">更新日期：2026-05-11｜白話版，給非技術讀者</p>
 
-    <section class="card">
-      <p class="big">一句話：這是很多網站背後共用的「主機管理後台」，近期發生連續安全事件，影響屬於高警戒等級。</p>
-    </section>
-
-    <h2>1) cPanel 是什麼？</h2>
-    <div class="card">
-      <p>你可以把 cPanel 想成「網站主機的控制台」。像是管理網域、信箱、檔案、資料庫、備份，很多操作都可以用網頁點一點完成，不需要一直打指令。</p>
-      <p>所以它不只是一套軟體，而是很多代管商和中小企業日常維運網站的核心工具。</p>
+    <div class="hero">
+      <h1>cPanel 黑色一週：你的網站可能已經中獎</h1>
+      <p class="sub">2026-05-11｜白話科普，給沒有技術背景的你</p>
+      <div class="lead">
+        如果你有網站、用過主機服務，或者你的公司把網站、信箱都外包給代管商——<strong>這篇值得花三分鐘讀完</strong>。不是要嚇你，是讓你知道該問誰什麼問題。
+      </div>
     </div>
 
-    <h2>2) 哪家公司做的？（簡史）</h2>
+    <!-- 1. cPanel 是什麼 -->
+    <h2>cPanel 是什麼？</h2>
     <div class="card">
-      <ul>
-        <li><strong>1996 年</strong>：cPanel 早期出現，原本是主機服務場景的管理工具。</li>
-        <li>後來由 <strong>cPanel, L.L.C.</strong> 持續開發（常見資料指向美國 Houston）。</li>
-        <li>近年在產業整併下，常見說法是歸在 <strong>WebPros</strong> 集團體系中。</li>
+      <p>你有沒有用過那種「登入主機後台，點一點就能建信箱、上傳檔案、管資料庫」的介面？那很可能就是 cPanel。</p>
+      <p>簡單比喻：cPanel 是「網站主機的遙控器」。網域設定、郵件帳號、備份、PHP 版本……幾乎所有日常操作都在裡面。</p>
+      <p>它不是你家自己裝的工具，而是很多<strong>主機代管商在幕後使用的平台基礎建設</strong>。你可能從來沒聽過它，但你的網站卻每天在它上面跑。</p>
+    </div>
+    <div class="callout callout-info">
+      <strong>一句話版：</strong>cPanel 是讓主機商幫你管網站的核心後台。它出問題，影響的不是一個網站，而是跑在同一台主機上的所有客戶。
+    </div>
+
+    <!-- 2. 誰做的簡史 -->
+    <h2>誰做的？簡史</h2>
+    <div class="card">
+      <ul class="timeline">
+        <li>
+          <span class="date">1996 年</span>
+          <span>cPanel 誕生，專為主機代管業設計的網頁管理工具。年資快 30 年，是業界老字號。</span>
+        </li>
+        <li>
+          <span class="date">長期發展</span>
+          <span>由美國德克薩斯州 Houston 的 <strong>cPanel, L.L.C.</strong> 開發維護，逐漸成為全球最普及的主機控制面板之一。</span>
+        </li>
+        <li>
+          <span class="date">近年</span>
+          <span>納入企業集團 <strong>WebPros</strong> 旗下，持續擴張與整合。Plesk 等其他主機管理軟體也在同一集團。</span>
+        </li>
       </ul>
-      <p>白話：這是很老牌、普及率高的產品，不是新工具。</p>
+      <p>它的普及率很高，也正因為這樣——出問題時，受影響規模就會特別大。</p>
     </div>
 
-    <h2>3) 這次漏洞事件是什麼？</h2>
+    <!-- 3. 這次事件發生什麼 -->
+    <h2>這次事件發生什麼？</h2>
     <div class="card">
-      <p>你給的文章提到：在前一波重大漏洞事件後，cPanel 又在短期內補了 3 個新漏洞（CVE-2026-29201 / 29202 / 29203）。</p>
-      <p>前一波事件（CVE-2026-41940）被多個資安媒體描述為已遭攻擊者實際利用，還牽涉勒索軟體活動。</p>
+      <p>整件事可以分成<strong>兩波</strong>：</p>
+      <p><strong>第一波（更早發現）：</strong>CVE-2026-41940，一個已被駭客實際利用的零日漏洞。所謂「零日」，就是廠商還沒出修補程式、攻擊者就已經在用它攻擊了。資安媒體報導這波事件牽涉到<strong>勒索軟體</strong>——攻擊者入侵後加密資料、索取贖金。</p>
+      <p><strong>第二波（5 月補丁）：</strong>cPanel 緊急又修了 3 個新漏洞（CVE-2026-29201、29202、29203）。這表示在第一波事件後，安全研究人員繼續翻底，找到更多問題，官方必須再次緊急發布更新。</p>
+    </div>
+    <div class="callout callout-warn">
+      <strong>這不是普通的 bug：</strong>短時間連發 4 個 CVE、其中一個已被勒索軟體利用——代表這段時間整個平台都在高壓狀態。主機商如果沒跟上更新，風險就轉移到你身上。
     </div>
 
-    <h2>4) 影響範圍有多大？</h2>
+    <!-- 4. 影響範圍多大 -->
+    <h2>影響範圍有多大？</h2>
+
+    <div class="stat-block">
+      <div class="stat">
+        <span class="num">44,000</span>
+        <span class="label">估計受影響伺服器數量</span>
+      </div>
+      <div class="stat">
+        <span class="num">4</span>
+        <span class="label">CVE 漏洞，短期內連續發現</span>
+      </div>
+      <div class="stat">
+        <span class="num">1</span>
+        <span class="label">已遭勒索軟體實際利用</span>
+      </div>
+    </div>
+
     <div class="card">
-      <p><strong>先講結論：</strong>「44,000 台伺服器」這個數字，主要是外媒對前一波事件規模的估計，被多篇報導引用。</p>
-      <ul>
-        <li>這代表影響層級是「伺服器群」而非單一網站。</li>
-        <li>若你用的是代管主機，風險常來自上游主機商是否即時更新。</li>
-        <li>短時間連續修補，表示官方已進入高壓修補與全面檢查期。</li>
+      <p>「44,000 台伺服器」這個數字來自外媒對第一波事件規模的估計，被多篇資安媒體報導引用。</p>
+      <p>重點不是數字本身，而是<strong>規模層級</strong>：受影響的是「伺服器」，不是「網頁」。一台伺服器上通常跑著幾十到幾百個客戶網站。換句話說，這次事件影響的終端網站數量，遠比 44,000 高出很多。</p>
+      <p>另一個重點：cPanel 本身出漏洞，但你的網站是不是真的出事，<strong>關鍵在於你的主機商有沒有及時更新</strong>。這就是為什麼你要去問他們。</p>
+    </div>
+
+    <!-- 5. 一般人怎麼自保 -->
+    <h2>一般人怎麼自保？</h2>
+    <div class="card">
+      <ul class="checklist">
+        <li>
+          <span class="icon">1.</span>
+          <span><strong>不要只看「我的網站還能開」就放心</strong>：勒索軟體或後門植入，初期常常不影響前端顯示。網站看起來正常≠沒被動過。</span>
+        </li>
+        <li>
+          <span class="icon">2.</span>
+          <span><strong>確認主機商是否已更新 cPanel</strong>：這是最重要的一步。直接聯繫他們，問清楚下面那幾個問題。</span>
+        </li>
+        <li>
+          <span class="icon">3.</span>
+          <span><strong>更改你的後台密碼</strong>：cPanel 登入密碼、網站管理後台（如 WordPress admin）、FTP/SFTP 帳號，都換一輪。用密碼管理工具、不要重複使用。</span>
+        </li>
+        <li>
+          <span class="icon">4.</span>
+          <span><strong>開啟兩步驟驗證（2FA）</strong>：如果你的主機商後台支援，馬上開。這能在帳密外加一道鎖。</span>
+        </li>
+        <li>
+          <span class="icon">5.</span>
+          <span><strong>備份你的資料</strong>：不管有沒有被影響，現在是個好時機把網站檔案和資料庫備份到自己手上，不要只依賴主機商幫你備。</span>
+        </li>
       </ul>
     </div>
+    <div class="callout callout-ok">
+      <strong>最低行動門檻：</strong>如果你只做一件事，就做這個——<strong>現在就寫信給主機商，問他們有沒有完成這次 cPanel 緊急更新。</strong>有問就是保障，不問就是賭運氣。
+    </div>
 
-    <h2>5) 對非技術使用者，該怎麼看？</h2>
+    <!-- 6. 給主機商要問的問題 -->
+    <h2>給主機商的三個問題</h2>
     <div class="card">
+      <p>不知道怎麼開口？複製下面這段就好，中英文版都有：</p>
+    </div>
+    <div class="card">
+      <p><strong>中文版：</strong></p>
       <ol>
-        <li>這不是「小 bug」，而是平台核心安全問題。</li>
-        <li>單一網站是否出事，常取決於主機商更新速度與事後檢查是否到位。</li>
-        <li>現在最重要的不是研究 CVE 細節，而是確認「主機商已更新 + 有做事件後檢查」。</li>
+        <li>你們是否已完成這一輪 cPanel 緊急安全更新（包含 CVE-2026-41940 及 CVE-2026-29201/29202/29203）？更新完成時間為何？</li>
+        <li>更新後是否有針對伺服器進行回溯安全檢查，例如異常登入紀錄、陌生管理員帳號、可疑腳本或後門檔案？</li>
+        <li>若你們已偵測到任何異常，客戶的通知和復原流程是什麼？</li>
       </ol>
     </div>
-
-    <h2>6) 你可以立刻問主機商的 3 個問題</h2>
     <div class="card">
+      <p><strong>English version (if your host responds in English):</strong></p>
       <ol>
-        <li>你們是否已完成這一輪 cPanel 緊急更新？完成時間是？</li>
-        <li>是否有做回溯檢查（異常登入、陌生管理員、可疑檔案）？</li>
-        <li>若偵測到異常，你們的通知與復原流程是什麼？</li>
+        <li>Have you completed the emergency cPanel security updates, including CVE-2026-41940 and CVE-2026-29201/29202/29203? When were the updates applied?</li>
+        <li>Did you perform a post-patch security audit of the servers, such as checking for unusual logins, rogue admin accounts, or suspicious files/backdoors?</li>
+        <li>If any anomalies were detected, what is your process for notifying customers and assisting with recovery?</li>
       </ol>
     </div>
+    <div class="callout callout-info">
+      如果主機商的回覆是「我們一直都有更新，放心」但給不出具體時間或細節——那這個答案不夠。好的主機商會給你明確的版本號和時間戳。
+    </div>
 
+    <!-- 7. 參考來源 -->
     <h2>參考來源</h2>
     <div class="card">
-      <ul>
-        <li>Copahost（你提供的文章）<br><a href="https://www.copahost.com/blog/cpanels-black-week-three-new-vulnerabilities-patched-after-ransomware-attack-on-44000-servers/">https://www.copahost.com/blog/cpanels-black-week-three-new-vulnerabilities-patched-after-ransomware-attack-on-44000-servers/</a></li>
-        <li>The Hacker News<br><a href="https://thehackernews.com/2026/05/cpanel-whm-patch-3-new-vulnerabilities.html">https://thehackernews.com/2026/05/cpanel-whm-patch-3-new-vulnerabilities.html</a></li>
-        <li>Help Net Security<br><a href="https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/">https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/</a></li>
-        <li>Panelica 分析文<br><a href="https://panelica.com/blog/cpanel-cve-2026-29201-29202-29203-may-2026-tsr-advisory">https://panelica.com/blog/cpanel-cve-2026-29201-29202-29203-may-2026-tsr-advisory</a></li>
-        <li>Wikipedia（cPanel 歷史概覽）<br><a href="https://en.wikipedia.org/wiki/CPanel">https://en.wikipedia.org/wiki/CPanel</a></li>
+      <ul class="ref-list">
+        <li>
+          <span class="source">Copahost — 原始事件報導</span>
+          <a href="https://www.copahost.com/blog/cpanels-black-week-three-new-vulnerabilities-patched-after-ransomware-attack-on-44000-servers/">copahost.com — cPanel's Black Week: Three New Vulnerabilities Patched After Ransomware Attack on 44,000 Servers</a>
+        </li>
+        <li>
+          <span class="source">The Hacker News — 技術分析</span>
+          <a href="https://thehackernews.com/2026/05/cpanel-whm-patch-3-new-vulnerabilities.html">thehackernews.com — cPanel & WHM: 3 New Vulnerabilities Patched</a>
+        </li>
+        <li>
+          <span class="source">Help Net Security — 零日漏洞報導</span>
+          <a href="https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/">helpnetsecurity.com — CVE-2026-41940 Exploited in the Wild</a>
+        </li>
+        <li>
+          <span class="source">Panelica — CVE 技術分析</span>
+          <a href="https://panelica.com/blog/cpanel-cve-2026-29201-29202-29203-may-2026-tsr-advisory">panelica.com — CVE-2026-29201/29202/29203 Advisory Analysis</a>
+        </li>
+        <li>
+          <span class="source">Wikipedia — cPanel 歷史背景</span>
+          <a href="https://en.wikipedia.org/wiki/CPanel">en.wikipedia.org/wiki/CPanel</a>
+        </li>
       </ul>
-      <p class="meta">註：44,000 為媒體與分析文常見估計值，實際數字可能隨後續調查更新。</p>
+      <p class="muted" style="margin-top:14px">註：44,000 台為多家媒體與資安分析文章引用之估計值，實際數字可能隨後續調查修正。本文為白話整理，如需技術細節請參閱上方原始來源。</p>
     </div>
+
   </main>
 </body>
 </html>
