@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI 能源消耗與成本效益深度研究報告：從 GPT-3 訓練碳排、推論耗水，到 Green AI 倡議與實用解決方案的完整整理。">
+  <meta name="keywords" content="AI, 能源消耗, 碳排放, Green AI, 永續, ChatGPT, 水資源, 資料中心">
+  <meta name="author" content="Chang Shu-Huai">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="AI 能源消耗 × 成本效益研究報告">
+  <meta property="og:description" content="每次 AI 對話耗水 500ml？深入解析 AI 的環境代價與 Green AI 解方。">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_TW">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI 能源消耗 × 成本效益研究報告">
+  <meta name="twitter:description" content="每次 AI 對話耗水 500ml？深入解析 AI 的環境代價與 Green AI 解方。">
+  <meta name="article:published_time" content="2026-05-11">
+  <title>AI 能源消耗 × 成本效益研究報告</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #1a1a14;
+      --bg-mid:    #222219;
+      --bg-card:   #262620;
+      --bg-card2:  #2e2e25;
+      --text:      #f5f0e8;
+      --text-muted:#b8b0a0;
+      --green:     #7a9e6b;
+      --green-dim: #5a7a4f;
+      --orange:    #c4854a;
+      --orange-dim:#9e6038;
+      --border:    #3a3a2e;
+      --border-acc:#4a4a38;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Serif TC', 'Georgia', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(160deg, #1e1e17 0%, #111110 100%);
+      border-bottom: 2px solid var(--orange);
+      padding: 3.5rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--bg);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      max-width: 800px;
+      margin: 0 auto 1rem;
+    }
+
+    header h1 span {
+      color: var(--orange);
+    }
+
+    .header-meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--bg-mid);
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--green);
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-num {
+      background: var(--orange);
+      color: var(--bg);
+      font-size: 0.8rem;
+      font-weight: 700;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── STAT CARDS (big number) ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-acc);
+      border-top: 3px solid var(--orange);
+      border-radius: 0.5rem;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+
+    .stat-card.green-accent {
+      border-top-color: var(--green);
+    }
+
+    .stat-value {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1.1;
+      display: block;
+    }
+
+    .stat-card.green-accent .stat-value {
+      color: var(--green);
+    }
+
+    .stat-unit {
+      font-size: 1rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+      line-height: 1.4;
+    }
+
+    /* ── PROSE ── */
+    .prose {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .prose p {
+      margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+
+    .prose p:last-child {
+      margin-bottom: 0;
+    }
+
+    .prose strong {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .prose ul {
+      padding-left: 1.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .prose ul li {
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .prose ul li strong {
+      color: var(--orange);
+    }
+
+    .green-text {
+      color: var(--green) !important;
+    }
+
+    /* ── ADVOCATE CARDS ── */
+    .advocate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .advocate-card {
+      background: var(--bg-card2);
+      border: 1px solid var(--border-acc);
+      border-left: 4px solid var(--green);
+      border-radius: 0.5rem;
+      padding: 1.4rem;
+    }
+
+    .advocate-card.org {
+      border-left-color: var(--orange);
+    }
+
+    .advocate-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 0.3rem;
+    }
+
+    .advocate-card.org .advocate-name {
+      color: var(--orange);
+    }
+
+    .advocate-paper {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+      font-style: italic;
+    }
+
+    .advocate-points {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 0.8rem;
+    }
+
+    .advocate-points li {
+      font-size: 0.88rem;
+      color: var(--text);
+      padding: 0.2rem 0 0.2rem 1.1rem;
+      position: relative;
+    }
+
+    .advocate-points li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .advocate-card.org .advocate-points li::before {
+      color: var(--orange);
+    }
+
+    .advocate-link {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--green);
+      text-decoration: none;
+      border: 1px solid var(--green-dim);
+      border-radius: 2rem;
+      padding: 0.25rem 0.8rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .advocate-card.org .advocate-link {
+      color: var(--orange);
+      border-color: var(--orange-dim);
+    }
+
+    .advocate-link:hover {
+      background: var(--green);
+      color: var(--bg);
+    }
+
+    .advocate-card.org .advocate-link:hover {
+      background: var(--orange);
+      color: var(--bg);
+    }
+
+    /* ── SOLUTION CARDS ── */
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .solution-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-acc);
+      border-radius: 0.5rem;
+      padding: 1.3rem;
+    }
+
+    .solution-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+
+    .solution-desc {
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.6;
+    }
+
+    .solution-effect {
+      display: inline-block;
+      font-size: 0.8rem;
+      background: rgba(122, 158, 107, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(122, 158, 107, 0.3);
+      border-radius: 2rem;
+      padding: 0.2rem 0.7rem;
+    }
+
+    /* ── QUOTE BLOCK ── */
+    .quote-block {
+      border-left: 4px solid var(--orange);
+      padding: 1.2rem 1.5rem;
+      background: var(--bg-card);
+      border-radius: 0 0.5rem 0.5rem 0;
+      margin-bottom: 1.2rem;
+    }
+
+    .quote-block blockquote {
+      font-size: 1.05rem;
+      color: var(--text);
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+
+    .quote-block cite {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: normal;
+    }
+
+    /* ── ACTION LIST ── */
+    .action-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .action-list li {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1rem 1.2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .action-num {
+      background: var(--green);
+      color: var(--bg);
+      font-size: 0.8rem;
+      font-weight: 700;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .action-body strong {
+      color: var(--orange);
+    }
+
+    .action-body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* ── FOOTNOTES / SOURCES ── */
+    .sources {
+      background: var(--bg-mid);
+      border-top: 2px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .sources h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .sources ol {
+      padding-left: 1.4rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .sources ol li {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .sources ol li a {
+      color: var(--green);
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .sources ol li a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    /* ── DIVIDER TAG ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    /* ── HIGHLIGHT BAND ── */
+    .highlight-band {
+      background: linear-gradient(90deg, rgba(196,133,74,0.1) 0%, transparent 100%);
+      border-left: 4px solid var(--orange);
+      padding: 0.8rem 1.2rem;
+      border-radius: 0 0.3rem 0.3rem 0;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      body { font-size: 18px; }
+      .stat-value { font-size: 2.2rem; }
+      .advocate-grid { grid-template-columns: 1fr; }
+      .solution-grid { grid-template-columns: 1fr; }
+      nav { gap: 0.7rem; }
+      nav a { font-size: 0.78rem; }
+      header { padding: 2.5rem 1rem 2rem; }
+      main { padding: 1.5rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Research Report · 2026年5月</div>
+  <h1>AI 能源消耗 <span>×</span> 成本效益研究報告</h1>
+  <p class="header-meta">
+    資料來源：arXiv・IEA・Goldman Sachs・Capgemini・Gartner・MIT・A16Z・Google/Microsoft 環境報告
+  </p>
+</header>
+
+<nav aria-label="章節導覽">
+  <a href="#sec1">一、訓練碳排</a>
+  <a href="#sec2">二、推論消耗</a>
+  <a href="#sec3">三、成本效益</a>
+  <a href="#sec4">四、Green AI</a>
+  <a href="#sec5">五、解決方案</a>
+  <a href="#sec6">六、引言</a>
+  <a href="#sec7">七、個人行動</a>
+  <a href="#sources">來源</a>
+</nav>
+
+<main>
+
+  <!-- ── 一、AI 訓練碳排 ── -->
+  <section id="sec1">
+    <div class="section-title">
+      <div class="section-num">1</div>
+      <h2>AI 訓練的碳排放</h2>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">502–552</span>
+        <span class="stat-unit">噸 CO₂eq</span>
+        <p class="stat-label">GPT-3 訓練碳排放<br>≒ 5 輛車終生排放</p>
+      </div>
+      <div class="stat-card green-accent">
+        <span class="stat-value">25</span>
+        <span class="stat-unit">噸 CO₂</span>
+        <p class="stat-label">BLOOM 訓練碳排<br>使用再生能源，比 GPT-3 少 96%</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">626,155</span>
+        <span class="stat-unit">磅 CO₂</span>
+        <p class="stat-label">訓練一個大型 NLP 模型<br>≒ 125 趟紐約—北京來回機票</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">1,287</span>
+        <span class="stat-unit">MWh</span>
+        <p class="stat-label">GPT-3 訓練耗電量</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p><strong>訓練是一次性成本</strong>，但推論的終身累積碳排遠超過訓練本身，可達數千倍。這意味著部署後持續運行的推論服務，其環境影響才是真正需要關注的焦點。</p>
+      <p>BLOOM 模型的案例証明了<strong class="green-text">選用再生能源的訓練策略</strong>能大幅削減碳足跡——在幾乎相同規模下，碳排放可降低 96%。</p>
+    </div>
+  </section>
+
+  <!-- ── 二、推論能源水資源 ── -->
+  <section id="sec2">
+    <div class="section-title">
+      <div class="section-num">2</div>
+      <h2>AI 推論的能源與水資源消耗</h2>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">500</span>
+        <span class="stat-unit">毫升</span>
+        <p class="stat-label">每次 ChatGPT 對話的耗水量<br>相當於一瓶礦泉水</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">40–60億</span>
+        <span class="stat-unit">公升</span>
+        <p class="stat-label">ChatGPT 2023 年全年用水量</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">10×</span>
+        <span class="stat-unit">能耗倍率</span>
+        <p class="stat-label">GPT-4 單次查詢<br>vs. Google 搜尋</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">1,000</span>
+        <span class="stat-unit">TWh</span>
+        <p class="stat-label">IEA 預估 2026 年<br>全球 AI 資料中心用電量</p>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">+48%</span>
+        <span class="stat-unit">溫室氣體排放</span>
+        <p class="stat-label">Google 對比 2019 年基準</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">+29%</span>
+        <span class="stat-unit">碳排放增幅</span>
+        <p class="stat-label">Microsoft 自 2020 年起</p>
+      </div>
+      <div class="stat-card green-accent">
+        <span class="stat-value">460</span>
+        <span class="stat-unit">TWh（2022年）</span>
+        <p class="stat-label">全球 AI 資料中心用電<br>四年後預估翻倍以上</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>資料中心冷卻系統消耗大量淡水，服務器溫度管理是主要耗水環節。當使用者每天進行多次 AI 對話時，<strong>每瓶礦泉水大小的用水量</strong>在全球數億用戶規模下將成為驚人的水資源壓力。</p>
+    </div>
+  </section>
+
+  <!-- ── 三、成本效益 ── -->
+  <section id="sec3">
+    <div class="section-title">
+      <div class="section-num">3</div>
+      <h2>AI 投資的成本效益</h2>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card green-accent">
+        <span class="stat-value">99%</span>
+        <span class="stat-unit">API 費用降幅</span>
+        <p class="stat-label">18 個月內從 $60 → $0.15<br>每百萬 tokens；A16Z 記錄</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">25%</span>
+        <span class="stat-unit">企業有顯著 ROI</span>
+        <p class="stat-label">Capgemini 2024<br>調查 1,000+ 家企業</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">30%</span>
+        <span class="stat-unit">PoC 專案放棄率</span>
+        <p class="stat-label">Gartner 預測<br>概念驗證無法轉化為正式部署</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">4.6%</span>
+        <span class="stat-unit">可自動化任務比例</span>
+        <p class="stat-label">MIT Acemoglu 2024<br>考量實際成本後的估算</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p><strong>Goldman Sachs 2024《Gen AI: Too Much Spend, Too Little Benefit?》</strong>質疑 1 兆美元的 AI 投資是否能帶來對等回報。</p>
+      <p><strong>MIT Acemoglu (2024)</strong>：考量實際成本後，AI 僅能自動化 4.6% 的任務，10 年 GDP 效益僅 <strong>+0.5%</strong>，遠低於業界樂觀預估的 7%。</p>
+      <p><strong>OpenAI 2024</strong>：預計年度虧損達 50 億美元，現行 API 低價由投資人資本補貼支撐，並非商業可持續的定價。</p>
+    </div>
+
+    <div class="highlight-band">
+      API 費用雖大幅降低，但企業實際獲得顯著回報的比例仍低——<strong>成本效益之間存在巨大落差</strong>，「AI 泡沫」的討論仍持續中。
+    </div>
+  </section>
+
+  <!-- ── 四、Green AI ── -->
+  <section id="sec4">
+    <div class="section-title">
+      <div class="section-num">4</div>
+      <h2>Green AI 倡議者與解決方案</h2>
+    </div>
+
+    <h3 style="color: var(--text-muted); font-size:0.9rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1rem;">學術研究者</h3>
+
+    <div class="advocate-grid">
+      <div class="advocate-card">
+        <div class="advocate-name">Roy Schwartz, Jesse Dodge,<br>Noah A. Smith, Oren Etzioni</div>
+        <div class="advocate-paper">「Green AI」(2020, Communications of the ACM) — AI2</div>
+        <ul class="advocate-points">
+          <li>定義「Red AI」= 暴力算力追 SOTA；「Green AI」= 效率優先</li>
+          <li>要求論文除準確率外，也報告效率指標（FLOPs、能耗）</li>
+          <li>使用小型、任務專屬模型，而非大型通用模型</li>
+        </ul>
+        <a href="https://www.researchgate.net/publication/335592175_Green_AI" target="_blank" rel="noopener" class="advocate-link">閱讀論文 →</a>
+      </div>
+
+      <div class="advocate-card">
+        <div class="advocate-name">Carole-Jean Wu et al.</div>
+        <div class="advocate-paper">「Sustainable AI: Environmental Implications, Challenges, and Opportunities」(2022) — Meta AI</div>
+        <ul class="advocate-points">
+          <li>Right-size：模型規模配合任務需求</li>
+          <li>採用模型壓縮技術</li>
+          <li>碳感知排程（Carbon-aware scheduling）</li>
+          <li>強制要求 AI 模型的環境影響揭露</li>
+        </ul>
+        <a href="https://arxiv.org/abs/2111.00364" target="_blank" rel="noopener" class="advocate-link">閱讀論文 →</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <h3 style="color: var(--text-muted); font-size:0.9rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1rem;">組織與計劃</h3>
+
+    <div class="advocate-grid">
+      <div class="advocate-card org">
+        <div class="advocate-name">Green Software Foundation (GSF)</div>
+        <div class="advocate-paper">成員：Microsoft・Google・Intel・Accenture 等</div>
+        <ul class="advocate-points">
+          <li>Software Carbon Intensity (SCI) 規範：標準化碳排計量方式</li>
+          <li>Carbon Aware SDK（開源）：依電網碳強度排程工作負載</li>
+          <li>整合 WattTime API 與 Electricity Maps 即時資料</li>
+        </ul>
+        <a href="https://greensoftware.foundation/" target="_blank" rel="noopener" class="advocate-link">前往官網 →</a>
+      </div>
+
+      <div class="advocate-card org">
+        <div class="advocate-name">Climate Change AI (CCAI)</div>
+        <div class="advocate-paper">非營利研究倡議組織</div>
+        <ul class="advocate-points">
+          <li>雙向使命：用 AI 解決氣候問題</li>
+          <li>同時讓 AI 本身更環保</li>
+        </ul>
+        <a href="https://www.climatechange.ai/" target="_blank" rel="noopener" class="advocate-link">前往官網 →</a>
+      </div>
+
+      <div class="advocate-card org">
+        <div class="advocate-name">MLCommons</div>
+        <div class="advocate-paper">成員：Google・Meta・Microsoft・NVIDIA 等</div>
+        <ul class="advocate-points">
+          <li>MLPerf 基準測試納入能源效率指標</li>
+          <li>推動業界標準化的效率評比</li>
+        </ul>
+        <a href="https://mlcommons.org/" target="_blank" rel="noopener" class="advocate-link">前往官網 →</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <h3 style="color: var(--text-muted); font-size:0.9rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1rem;">開源工具</h3>
+
+    <div class="advocate-grid">
+      <div class="advocate-card">
+        <div class="advocate-name">CodeCarbon</div>
+        <div class="advocate-paper">Python 套件</div>
+        <ul class="advocate-points">
+          <li>追蹤 ML 程式碼的碳排放（用電量 × 電網碳強度）</li>
+          <li>支援 Weights &amp; Biases、MLflow 整合</li>
+        </ul>
+        <a href="https://codecarbon.io/" target="_blank" rel="noopener" class="advocate-link">前往官網 →</a>
+      </div>
+
+      <div class="advocate-card">
+        <div class="advocate-name">Carbontracker</div>
+        <div class="advocate-paper">哥本哈根大學開發</div>
+        <ul class="advocate-points">
+          <li>追蹤深度學習訓練的能耗與碳足跡</li>
+          <li>開源，可整合至訓練流程</li>
+        </ul>
+        <a href="https://github.com/lfwa/carbontracker" target="_blank" rel="noopener" class="advocate-link">GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 五、解決方案 ── -->
+  <section id="sec5">
+    <div class="section-title">
+      <div class="section-num">5</div>
+      <h2>實用解決方案</h2>
+    </div>
+
+    <div class="solution-grid">
+      <div class="solution-card">
+        <div class="solution-title">使用更小的模型</div>
+        <div class="solution-desc">依任務選用最小夠用的模型，不要預設用 GPT-4 等最大型模型</div>
+        <span class="solution-effect">每次查詢節省約 10 倍能耗</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">知識蒸餾（Distillation）</div>
+        <div class="solution-desc">訓練小模型模仿大模型行為，如 DistilBERT 系列</div>
+        <span class="solution-effect">體積小 40%・速度快 60%・保留 97% 性能</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">量化（Quantization）</div>
+        <div class="solution-desc">降低數值精度（FP32 → INT8），顯著縮小模型體積</div>
+        <span class="solution-effect">模型大小減少 4–8 倍</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">剪枝（Pruning）</div>
+        <div class="solution-desc">移除冗餘神經連接，保留重要權重</div>
+        <span class="solution-effect">模型大小減少 4–8 倍</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">遷移學習（Transfer Learning）</div>
+        <div class="solution-desc">微調預訓練模型，避免從頭訓練的巨大成本</div>
+        <span class="solution-effect">訓練時間減少 60–80%</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">高效架構設計</div>
+        <div class="solution-desc">使用 MobileNet、TinyBERT 等輕量架構</div>
+        <span class="solution-effect">MobileNet 參數量比 VGG-16 少 30 倍</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">碳感知排程</div>
+        <div class="solution-desc">電網碳排最低時（夜間、風力充足時）才執行批次工作</div>
+        <span class="solution-effect">電網碳強度依時間地點可差 2–10 倍</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">Right-sizing</div>
+        <div class="solution-desc">複雜度配合任務，簡單任務用簡單模型，核心原則</div>
+        <span class="solution-effect">最根本的效率提升策略</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">測量碳足跡</div>
+        <div class="solution-desc">在 ML 流程中整合 CodeCarbon 或 Carbontracker</div>
+        <span class="solution-effect">可見才可優化</span>
+      </div>
+
+      <div class="solution-card">
+        <div class="solution-title">報告效率指標</div>
+        <div class="solution-desc">發表模型時同時報告能耗、FLOPs，推動業界透明化</div>
+        <span class="solution-effect">建立業界標準</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 六、引言 ── -->
+  <section id="sec6">
+    <div class="section-title">
+      <div class="section-num">6</div>
+      <h2>關鍵引言</h2>
+    </div>
+
+    <div class="quote-block">
+      <blockquote>「使用最小夠用的模型才是降低 AI 碳足跡最有效的方法。」</blockquote>
+      <cite>— Lasse Nørfeldt，Dell Technologies 永續專家</cite>
+    </div>
+
+    <div class="quote-block">
+      <blockquote>「不要用大鐵錘當手術刀。」</blockquote>
+      <cite>— VentureBeat AI Sustainability 報導</cite>
+    </div>
+  </section>
+
+  <!-- ── 七、個人行動 ── -->
+  <section id="sec7">
+    <div class="section-title">
+      <div class="section-num">7</div>
+      <h2>總結：個人使用者能做什麼？</h2>
+    </div>
+
+    <ol class="action-list">
+      <li>
+        <div class="action-num">1</div>
+        <div class="action-body"><strong>選模型：</strong>簡單任務用 GPT-4o mini / Haiku / Flash，不要預設用最新最大的模型</div>
+      </li>
+      <li>
+        <div class="action-num">2</div>
+        <div class="action-body"><strong>批次處理：</strong>需要大量處理時，選在離峰時段（碳排較低時）執行</div>
+      </li>
+      <li>
+        <div class="action-num">3</div>
+        <div class="action-body"><strong>重複使用：</strong>善用對話歷史，避免重複送出類似 prompt</div>
+      </li>
+      <li>
+        <div class="action-num">4</div>
+        <div class="action-body"><strong>關注效率標章：</strong>選擇有碳揭露、使用再生能源的 AI 服務商</div>
+      </li>
+      <li>
+        <div class="action-num">5</div>
+        <div class="action-body"><strong>倡議：</strong>要求 AI 公司公開環境影響報告（參考 Google、Microsoft 模式）</div>
+      </li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ── SOURCES ── -->
+<footer class="sources" id="sources">
+  <div style="max-width:900px; margin:0 auto;">
+    <h2>來源清單</h2>
+    <ol>
+      <li>Strubell, E. et al. (2019). Energy and Policy Considerations for Deep Learning in NLP. <em>arXiv:1906.02629</em>. <a href="https://arxiv.org/abs/1906.02629" target="_blank" rel="noopener">https://arxiv.org/abs/1906.02629</a></li>
+      <li>Schwartz, R., Dodge, J., Smith, N. A., &amp; Etzioni, O. (2020). Green AI. <em>Communications of the ACM</em>. <a href="https://www.researchgate.net/publication/335592175_Green_AI" target="_blank" rel="noopener">researchgate.net</a></li>
+      <li>Wu, C.-J. et al. (2022). Sustainable AI: Environmental Implications, Challenges, and Opportunities. <em>arXiv:2111.00364</em>. <a href="https://arxiv.org/abs/2111.00364" target="_blank" rel="noopener">https://arxiv.org/abs/2111.00364</a></li>
+      <li>IEA (2024). Electricity 2024: Analysis and Forecast to 2026. International Energy Agency.</li>
+      <li>Goldman Sachs (2024). Gen AI: Too Much Spend, Too Little Benefit? Goldman Sachs Research.</li>
+      <li>Capgemini Research Institute (2024). Harnessing the Value of Generative AI. Survey of 1,000+ enterprises.</li>
+      <li>Gartner (2024). Predicts 2025: Generative AI. Gartner Research.</li>
+      <li>Acemoglu, D. (2024). The Simple Macroeconomics of AI. <em>MIT Economics Working Paper</em>.</li>
+      <li>A16Z (2023–2024). The AI Cost Curve. Andreessen Horowitz.</li>
+      <li>Google LLC (2024). Google 2024 Environmental Report.</li>
+      <li>Microsoft Corporation (2024). Microsoft Environmental Sustainability Report 2024.</li>
+      <li>Green Software Foundation. Software Carbon Intensity (SCI) Specification. <a href="https://greensoftware.foundation/" target="_blank" rel="noopener">greensoftware.foundation</a></li>
+      <li>Climate Change AI. <a href="https://www.climatechange.ai/" target="_blank" rel="noopener">climatechange.ai</a></li>
+      <li>MLCommons. MLPerf Inference Benchmarks. <a href="https://mlcommons.org/" target="_blank" rel="noopener">mlcommons.org</a></li>
+      <li>CodeCarbon. <a href="https://codecarbon.io/" target="_blank" rel="noopener">codecarbon.io</a></li>
+      <li>Lottick, K. et al. Carbontracker. University of Copenhagen. <a href="https://github.com/lfwa/carbontracker" target="_blank" rel="noopener">github.com/lfwa/carbontracker</a></li>
+      <li>VentureBeat (2024). AI Sustainability: How to Build Green AI Systems.</li>
+      <li>Labellerr (2024). Environmental Impact of Large Language Models.</li>
+      <li>CrossML (2024). Carbon Footprint of AI Models: A Comprehensive Analysis.</li>
+    </ol>
+  </div>
+</footer>
+
+<footer>
+  <p>整理時間：2026年5月 &nbsp;·&nbsp; Chang Shu-Huai</p>
+</footer>
+
+</body>
+</html>
