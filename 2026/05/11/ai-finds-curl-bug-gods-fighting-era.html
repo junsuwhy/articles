@@ -383,6 +383,67 @@
     沒有誇大，也沒有輕描淡寫。就是這樣，繼續工作。
   </p>
 
+  <p>
+    但他在 Mythos 找到漏洞的三週前，其實已經寫了一篇更完整的觀察。
+  </p>
+
+  <hr />
+
+  <h2>「高品質混亂」時代</h2>
+
+  <p>
+    2026 年 4 月，Daniel 在他的部落格寫了一篇叫做
+    <a href="https://daniel.haxx.se/blog/2026/04/22/high-quality-chaos/" target="_blank" rel="noopener">High-Quality Chaos</a>
+    的文章。這是我覺得他對這個時代觀察最精準的一篇。
+  </p>
+
+  <p>
+    在此之前，curl 在 2025 年和 2026 年初飽受 AI 生成的垃圾漏洞回報轟炸——
+    大量不正確、沒有意義的安全回報，嚴重到他們在今年 2 月 1 日直接關閉了整個 bug bounty。
+  </p>
+
+  <p>
+    然後他們重開，觀察到了截然不同的景象：
+  </p>
+
+  <div class="hn-comment">
+    <div class="hn-user">Daniel Stenberg — High-Quality Chaos（2026/04/22）</div>
+    <p>
+      回報頻率是有史以來最高的，大約是 2025 年的兩倍——而 2025 年本身已經是前幾年的兩倍。<br /><br />
+      但垃圾問題消失了。確認為真實漏洞的比例回到了 2024 年 AI 出現之前的水準，大約 15–16%。<br /><br />
+      幾乎每一份回報現在都有使用 AI。你可以從措辭方式看出來，也可以從「大量高度相似的重複回報」這件事判斷——這不可能是人類手寫的。
+    </p>
+  </div>
+
+  <p>
+    他還在 Mastodon 做了一個非正式調查，詢問其他開源專案是否看到同樣趨勢。
+    回應他的有：Apache httpd、BIND、Django、Firefox、git、glibc、GnuTLS、Linux kernel、Python、Ruby、Wireshark……
+    幾乎橫跨整個重要開源軟體生態。
+  </p>
+
+  <p>
+    他的預估：curl 在 2026 年全年可能會發布接近 <strong>50 個 CVE</strong>。這將是歷史紀錄。
+  </p>
+
+  <div class="hn-comment">
+    <div class="hn-user">Daniel Stenberg</div>
+    <p>
+      對壞人來說，這可能正好是個好時機——他們可以用同樣的工具找到這麼多問題，
+      趁著各專案還沒有時間、人力和精力修完這些漏洞之前。<br /><br />
+      然後所有人還需要更新到修好的新版本——而我們都知道這通常需要更長的時間。<br /><br />
+      <strong>We are up for a bumpy ride.</strong>
+    </p>
+  </div>
+
+  <p>
+    「高品質混亂」——這就是他對這個時代的命名。AI 讓安全研究的品質和規模都同步提升，
+    但這個工具是中性的，攻防兩端都能用。維護者的負擔在爆炸性增長，修補的速度趕不上發現的速度。
+  </p>
+
+  <p>
+    Mythos 在三週後找到 curl 的漏洞，不過是這個大趨勢的一個小片段。
+  </p>
+
   <hr />
 
   <div class="callout">
@@ -391,6 +452,12 @@
       Daniel Stenberg 的原文：
       <a href="https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/" target="_blank" rel="noopener">
         Mythos finds a curl vulnerability
+      </a>
+    </p>
+    <p style="margin-bottom:0.4rem;">
+      Daniel Stenberg 的另一篇：
+      <a href="https://daniel.haxx.se/blog/2026/04/22/high-quality-chaos/" target="_blank" rel="noopener">
+        High-Quality Chaos
       </a>
     </p>
     <p style="margin-bottom:0.4rem;">
