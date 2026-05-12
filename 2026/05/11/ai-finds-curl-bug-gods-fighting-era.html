@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 找到了 curl 的漏洞——神仙打架時代正式開幕</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', 'Segoe UI', system-ui, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      font-size: 17px;
+      line-height: 1.85;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    @media (max-width: 768px) {
+      body { font-size: 18px; padding: 1.2rem 1rem 3rem; }
+      h1 { font-size: 1.75rem; }
+      h2 { font-size: 1.25rem; }
+    }
+
+    .container { max-width: 760px; margin: 0 auto; }
+
+    header {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid #2d3748;
+      padding-bottom: 1.5rem;
+    }
+
+    .hero-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #1e3a5f;
+      color: #90cdf4;
+      font-size: 0.78rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f7fafc;
+      line-height: 1.3;
+      margin-bottom: 0.6rem;
+    }
+
+    .meta { font-size: 0.85rem; color: #718096; }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #90cdf4;
+      margin: 2.2rem 0 0.8rem;
+      padding-left: 0.8rem;
+      border-left: 3px solid #3182ce;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    a { color: #63b3ed; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .callout {
+      background: #1a2535;
+      border-left: 4px solid #63b3ed;
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .callout .callout-title {
+      font-weight: 700;
+      color: #63b3ed;
+      margin-bottom: 0.4rem;
+      font-size: 0.92rem;
+    }
+
+    .quote-block {
+      border-left: 3px solid #4a5568;
+      padding: 0.8rem 1.2rem;
+      margin: 1.5rem 0;
+      color: #a0aec0;
+      font-style: italic;
+      background: #141b27;
+      border-radius: 0 8px 8px 0;
+    }
+    .quote-block cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: #718096;
+    }
+
+    .hn-comment {
+      background: #141b27;
+      border: 1px solid #2d3748;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+    .hn-comment .hn-user {
+      font-size: 0.82rem;
+      color: #f6ad55;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .hn-comment p { margin-bottom: 0; color: #cbd5e0; }
+
+    code {
+      background: #1a2535;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: #fc8181;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+    }
+    .stat-card {
+      flex: 1;
+      min-width: 140px;
+      background: #141b27;
+      border: 1px solid #2d3748;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-card .stat-val {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fc8181;
+    }
+    .stat-card .stat-label {
+      font-size: 0.8rem;
+      color: #718096;
+      margin-top: 0.2rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #2d3748;
+      margin: 2.5rem 0;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.82rem;
+      color: #4a5568;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="tag">🤖 AI × 資安</div>
+    <h1>AI 找到了 curl 的漏洞——神仙打架時代正式開幕</h1>
+    <div class="meta">2026 年 5 月 11 日</div>
+  </header>
+
+  <p>
+    curl 是網際網路的基礎建設之一。幾乎你用過的每一台伺服器、每一支手機、每一個嵌入式裝置裡都有它的身影。
+    它的作者 Daniel Stenberg 維護這個專案將近三十年，每週處理漏洞回報、修補程式碼、回應社群。
+  </p>
+
+  <p>
+    2026 年 5 月 7 日，他收到了一份不太一樣的漏洞回報——這次找到 bug 的，是一個 AI。
+  </p>
+
+  <hr />
+
+  <h2>Mythos 做了什麼？</h2>
+
+  <p>
+    Doyensec 是一家資安研究公司。他們開發了一個叫做 <strong>Mythos</strong> 的 AI 資安研究工具，
+    並把它對準了 curl 的程式碼庫。
+  </p>
+
+  <p>
+    Mythos 找到了一個 <strong>use-after-free</strong> 的漏洞，藏在 curl 的 IMAP 實作裡。
+    當 SASL 認證流程在特定錯誤路徑下執行時，程式會先釋放某塊記憶體，
+    但後續程式碼還繼續使用那個已經釋放的指標——這是 C 語言裡最危險的一類漏洞。
+  </p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-val">CVE</div>
+      <div class="stat-label">2025-46498</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">6.3</div>
+      <div class="stat-label">CVSS 分數（中等）</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">8.8.0</div>
+      <div class="stat-label">漏洞自此版本起存在</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">8.13.0</div>
+      <div class="stat-label">修復版本</div>
+    </div>
+  </div>
+
+  <p>
+    漏洞藏在 <code>lib/imap.c</code> 和 <code>lib/sasl.c</code> 兩支程式裡，
+    自 2024 年 6 月的 curl 8.8.0 版本就已存在，到今年 5 月才被 AI 挖出來。
+  </p>
+
+  <h2>Daniel 怎麼看這件事？</h2>
+
+  <p>
+    Doyensec 走的是標準的「負責任揭露（responsible disclosure）」流程——私下回報、等待修補、
+    配合 curl 8.13.0 發布時機同步公開。Daniel 在他的部落格上給了明確的評價：
+  </p>
+
+  <div class="quote-block">
+    Doyensec acted correctly and responsibly.<br />
+    （Doyensec 的行為正確且負責任。）
+    <cite>— Daniel Stenberg, curl 作者</cite>
+  </div>
+
+  <p>
+    然後他說了一段值得細讀的話：
+  </p>
+
+  <div class="quote-block">
+    I find this both natural and expected; the tooling is getting better and smarter. I expect we will see more of this going forward.<br /><br />
+    The fact that it is AI-powered does not change how we treat the vulnerability – it is assessed and handled just like any other reported security problem.<br /><br />
+    AI-assisted security research is <strong>here</strong>, and it is finding real bugs.
+    <cite>— Daniel Stenberg</cite>
+  </div>
+
+  <p>
+    他沒有大驚小怪，也沒有悲觀，語氣平靜得像是在說「是啊，天氣越來越熱了」。
+    對他來說，AI 找到漏洞只是工具變得更好用的自然延伸——處理方式跟收到人類回報完全一樣。
+  </p>
+
+  <p>
+    但這其實是很重要的訊號。curl 這種被全世界幾十億裝置使用的基礎軟體，
+    過去要靠有緣分的人類研究者花大量時間審查程式碼才能挖到這類漏洞。
+    現在，AI 工具可以系統性地、規模化地掃描。
+  </p>
+
+  <hr />
+
+  <h2>另一場神仙打架：AI 在討論自己</h2>
+
+  <p>
+    同一天，Hacker News 上有另一個熱烈討論，主題是 Anthropic 發表的研究：
+    Claude 的 Extended Thinking（延伸思考）模式，在<strong>簡單任務上反而表現更差</strong>。
+  </p>
+
+  <p>
+    這兩個話題放在一起，形成了一幅很有意思的拼圖：
+    AI 工具強到可以去找 curl 的漏洞，但 AI 的能力邊界和運作機制，AI 自己也還在摸索。
+  </p>
+
+  <p>HN 討論裡有幾個觀點很精彩：</p>
+
+  <div class="hn-comment">
+    <div class="hn-user">antman</div>
+    <p>
+      用延伸思考來處理簡單任務，就像用大鐵鎚敲圖釘。
+      當模型被迫去「思考」一個其實不需要思考的問題，它可能反而會開始質疑自己本來正確的直覺——
+      就像人類過度分析一樣。
+    </p>
+  </div>
+
+  <div class="hn-comment">
+    <div class="hn-user">myrmidon</div>
+    <p>
+      這和人類專家的現象一模一樣。很有經驗的醫師、律師、工程師，
+      有時候在簡單問題上反而給出比資淺者更差的答案——
+      因為他們試圖把複雜框架套用在根本不需要的場合，看到了並不存在的複雜度。
+    </p>
+  </div>
+
+  <div class="hn-comment">
+    <div class="hn-user">philwelch</div>
+    <p>
+      延伸思考有一個很值得注意的效果：它<strong>降低了諂媚行為（sycophancy）</strong>。
+      普通模式的 AI 傾向給你想聽的答案；啟用延伸思考後，AI 更容易推論出「這個答案是 X，
+      即使你不喜歡聽」。這可能是最被低估的優點。
+    </p>
+  </div>
+
+  <div class="hn-comment">
+    <div class="hn-user">throwaway892238</div>
+    <p>
+      這篇研究有一個隱含的承認：延伸思考版的 Claude 根本是另一個模型。
+      你不能把延伸思考「關掉」然後期待它表現得和基礎模型一樣。
+      用 RL 訓練過的推理模型，是不同的東西。
+    </p>
+  </div>
+
+  <div class="hn-comment">
+    <div class="hn-user">jazzyjackson</div>
+    <p>
+      有趣的是，Anthropic 願意發表這個研究。延伸思考 = 更多 tokens = 更多收入。
+      主動告訴開發者「你其實不需要用那麼多 tokens」，這有點違反短期商業利益。
+      但長期來說，讓開發者正確使用、真正獲得效益，才能留住他們。
+    </p>
+  </div>
+
+  <div class="hn-comment">
+    <div class="hn-user">svilen_dobrev</div>
+    <p>
+      我特別喜歡「模型主動決定不思考」這個現象。它學到了「在簡單任務上過度推理是反效果的」，
+      然後自己選擇少用 thinking tokens。這是某種形式的元認知——有點令人著迷。
+    </p>
+  </div>
+
+  <hr />
+
+  <h2>這個時代到底意味著什麼？</h2>
+
+  <p>
+    把這兩件事放在一起，2026 年的 AI 生態有點奇妙：
+  </p>
+
+  <p>
+    一方面，<strong>AI 工具已經強到可以在真實世界的基礎軟體裡挖到 use-after-free 漏洞</strong>，
+    而且用的是正確的揭露流程、負責任地配合修補。這不是 demo，不是 CTF，是真實的 CVE。
+  </p>
+
+  <p>
+    另一方面，<strong>AI 的能力邊界依然很奇特</strong>。同一個 AI，在需要深度推理的任務上變聰明了，
+    在簡單任務上卻可能因為「想太多」而變笨。它有時候知道自己不需要想，有時候又不知道。
+  </p>
+
+  <p>
+    Daniel Stenberg 的反應最能說明這個時代的基調：<em>我預期未來會看到更多這樣的事。
+    AI 找到的漏洞，我們一樣當漏洞處理。</em>沒有末日，也沒有神話，就是工具變好了。
+  </p>
+
+  <p>
+    神仙打架時代的有趣之處，或許不是哪個 AI 贏了哪個人類，
+    而是我們開始需要真正搞清楚：這個工具在什麼場合用？怎麼用？它的邊界在哪？
+  </p>
+
+  <p>
+    這些問題，以前只有工程師需要問。現在每個使用 AI 工具的人都該問。
+  </p>
+
+  <hr />
+
+  <div class="callout">
+    <div class="callout-title">📎 參考來源</div>
+    <p style="margin-bottom:0.4rem;">
+      Daniel Stenberg 的原文：
+      <a href="https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/" target="_blank" rel="noopener">
+        Mythos finds a curl vulnerability
+      </a>
+    </p>
+    <p style="margin-bottom:0.4rem;">
+      curl CVE 公告：
+      <a href="https://curl.se/docs/CVE-2025-46498.html" target="_blank" rel="noopener">
+        CVE-2025-46498
+      </a>
+    </p>
+    <p style="margin-bottom:0;">
+      HN 討論：
+      <a href="https://news.ycombinator.com/item?id=48091737" target="_blank" rel="noopener">
+        Claude's extended thinking: less thinking is sometimes more
+      </a>
+    </p>
+  </div>
+
+  <footer>
+    <p>2026 年 5 月 11 日</p>
+  </footer>
+
+</div>
+</body>
+</html>
