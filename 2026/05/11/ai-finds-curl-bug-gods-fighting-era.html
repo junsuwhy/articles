@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 找到了 curl 的漏洞——神仙打架時代正式開幕</title>
+  <title>高品質混亂——AI 資安工具的神仙打架時代</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -134,7 +134,7 @@
     }
     .stat-card {
       flex: 1;
-      min-width: 140px;
+      min-width: 130px;
       background: #141b27;
       border: 1px solid #2d3748;
       border-radius: 10px;
@@ -142,12 +142,12 @@
       text-align: center;
     }
     .stat-card .stat-val {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: #fc8181;
     }
     .stat-card .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: #718096;
       margin-top: 0.2rem;
     }
@@ -171,127 +171,152 @@
   <header>
     <img src="/images/ai-gods-hero.png" alt="AI 神仙打架時代" class="hero-img" />
     <div class="tag">🤖 AI × 資安</div>
-    <h1>AI 找到了 curl 的漏洞——神仙打架時代正式開幕</h1>
+    <h1>高品質混亂——AI 資安工具的神仙打架時代</h1>
     <div class="meta">2026 年 5 月 11 日</div>
   </header>
 
   <p>
-    curl 是網際網路的基礎建設之一。幾乎你用過的每一台伺服器、每一支手機、每一個嵌入式裝置裡都有它的身影。
-    它的作者 Daniel Stenberg 維護這個專案將近三十年，每週處理漏洞回報、修補程式碼、回應社群。
+    curl 是網際網路最底層的工具之一。它跑在幾乎每一台伺服器、每一支手機、每一個嵌入式裝置裡，
+    超過兩百億個安裝實例。它的作者 Daniel Stenberg 維護這個專案將近三十年。
   </p>
 
   <p>
-    2026 年 5 月 7 日，他收到了一份不太一樣的漏洞回報——這次找到 bug 的，是一個 AI。
+    他把現在這個時代叫做「高品質混亂（High-Quality Chaos）」。
   </p>
 
   <hr />
 
-  <h2>Mythos 做了什麼？</h2>
+  <h2>先從混亂開始說起</h2>
 
   <p>
-    Doyensec 是一家資安研究公司。他們開發了一個叫做 <strong>Mythos</strong> 的 AI 資安研究工具，
-    並把它對準了 curl 的程式碼庫。
+    2025 年到 2026 年初，curl 的 bug bounty 被 AI 生成的垃圾漏洞回報淹沒。
+    大量措辭漂亮但毫無意義、或根本搞錯的安全回報，嚴重到 Daniel 在今年 2 月 1 日直接關閉整個計畫。
   </p>
 
   <p>
-    Mythos 找到了一個 <strong>use-after-free</strong> 的漏洞，藏在 curl 的 IMAP 實作裡。
-    當 SASL 認證流程在特定錯誤路徑下執行時，程式會先釋放某塊記憶體，
-    但後續程式碼還繼續使用那個已經釋放的指標——這是 C 語言裡最危險的一類漏洞。
-  </p>
-
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="stat-val">CVE</div>
-      <div class="stat-label">2025-46498</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">6.3</div>
-      <div class="stat-label">CVSS 分數（中等）</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">8.8.0</div>
-      <div class="stat-label">漏洞自此版本起存在</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">8.13.0</div>
-      <div class="stat-label">修復版本</div>
-    </div>
-  </div>
-
-  <p>
-    漏洞藏在 <code>lib/imap.c</code> 和 <code>lib/sasl.c</code> 兩支程式裡，
-    自 2024 年 6 月的 curl 8.8.0 版本就已存在，到今年 5 月才被 AI 挖出來。
-  </p>
-
-  <h2>Daniel 怎麼看這件事？</h2>
-
-  <p>
-    Doyensec 走的是標準的「負責任揭露（responsible disclosure）」流程——私下回報、等待修補、
-    配合 curl 8.13.0 發布時機同步公開。Daniel 在他的部落格上給了明確的評價：
+    然後他們換了平台重開，觀察到截然不同的景象。Daniel 在 4 月的文章
+    <a href="https://daniel.haxx.se/blog/2026/04/22/high-quality-chaos/" target="_blank" rel="noopener">High-Quality Chaos</a>
+    裡寫道：
   </p>
 
   <div class="quote-block">
-    Doyensec acted correctly and responsibly.<br />
-    （Doyensec 的行為正確且負責任。）
-    <cite>— Daniel Stenberg, curl 作者</cite>
+    回報頻率是有史以來最高的，大約是 2025 年的兩倍——而 2025 年本身已是前幾年的兩倍。<br /><br />
+    垃圾問題不再是問題了。確認為真實漏洞的比例回到 2024 年 AI 出現之前的水準，大約 15–16%。<br /><br />
+    幾乎每一份回報現在都使用了 AI。你可以從措辭方式看出來，也可以從「大量高度相似的重複回報」判斷——這不可能是人類手寫的。
+    <cite>— Daniel Stenberg，High-Quality Chaos（2026/04/22）</cite>
   </div>
 
   <p>
-    然後他說了一段值得細讀的話：
+    他還在 Mastodon 做了非正式調查，詢問其他開源專案是否看到同樣趨勢。
+    回應的有：Apache httpd、BIND、Django、Firefox、git、glibc、GnuTLS、Linux kernel、Python、Ruby、Wireshark……
+    幾乎橫跨整個開源軟體生態。
+  </p>
+
+  <p>他的預估：curl 在 2026 年全年可能發布接近 <strong>50 個 CVE</strong>，將是歷史紀錄。</p>
+
+  <div class="quote-block">
+    對壞人來說，這可能正好是個好時機——他們可以用同樣的工具找到這麼多問題，
+    趁著各專案還沒有時間、人力和精力修完之前。<br /><br />
+    然後所有人還需要更新到修好的新版本——而我們都知道這通常需要更長的時間。<br /><br />
+    <strong>We are up for a bumpy ride.</strong>
+    <cite>— Daniel Stenberg</cite>
+  </div>
+
+  <hr />
+
+  <h2>神仙已經在打架了</h2>
+
+  <p>
+    在 Mythos 造成媒體轟炸之前，curl 已經被好幾個 AI 資安工具掃過了。
+    Daniel 在 5 月的文章裡點名了三個：<strong>AISLE</strong>、<strong>Zeropath</strong>、
+    以及 <strong>OpenAI's Codex Security</strong>。
+  </p>
+
+  <p>
+    這三個工具加起來，在過去八到十個月內觸發了 curl <strong>兩到三百個 bugfix</strong>，
+    其中一部分確認為真實漏洞，已發布為 CVE，大概有十幾個以上。
+  </p>
+
+  <p>
+    他們還用 GitHub Copilot 和 Augment Code 做 PR review——AI review 和人類 review 並行，
+    互補而不取代。
   </p>
 
   <div class="quote-block">
-    I find this both natural and expected; the tooling is getting better and smarter. I expect we will see more of this going forward.<br /><br />
-    The fact that it is AI-powered does not change how we treat the vulnerability – it is assessed and handled just like any other reported security problem.<br /><br />
-    AI-assisted security research is <strong>here</strong>, and it is finding real bugs.
+    AI reviews are used <em>in addition to</em> the human reviews. They help us, they don't replace us.
     <cite>— Daniel Stenberg</cite>
   </div>
 
   <p>
-    他沒有大驚小怪，也沒有悲觀，語氣平靜得像是在說「是啊，天氣越來越熱了」。
-    對他來說，AI 找到漏洞只是工具變得更好用的自然延伸——處理方式跟收到人類回報完全一樣。
-  </p>
-
-  <p>
-    但這其實是很重要的訊號。curl 這種被全世界幾十億裝置使用的基礎軟體，
-    過去要靠有緣分的人類研究者花大量時間審查程式碼才能挖到這類漏洞。
-    現在，AI 工具可以系統性地、規模化地掃描。
+    換句話說，curl 不是第一次被 AI 掃——它是被好幾個 AI 神仙輪番掃過的戰場。
+    在 Mythos 登場之前，這片戰場其實已經被翻得很徹底了。
   </p>
 
   <hr />
 
-  <h2>但 HN 的人不買帳</h2>
+  <h2>Mythos 登場：只找到一個</h2>
 
   <p>
-    Daniel 的文章一上 Hacker News，討論串就炸了（653 points、266 則留言）。
-    不過討論的走向，和「AI 好棒棒」完全不同方向——大家在認真辯論：
-    <strong>Mythos 到底是真正的突破，還是只是行銷？</strong>
+    2026 年 4 月，Anthropic 高調宣傳他們的新模型 Mythos「危險地擅長找安全漏洞」，
+    甚至因此不敢公開釋出，只讓少數夥伴優先存取。全世界一陣騷動。
   </p>
 
-  <div class="hn-comment">
-    <div class="hn-user">rzmmm（引用 Daniel 本人的話）</div>
-    <p>
-      「我個人的結論是：Mythos 目前的大量炒作主要是行銷。我沒有看到證據顯示這套工具找到漏洞的能力，明顯高於 Mythos 之前的其他工具。它可能好一點，但就算好，也還沒好到對程式碼分析造成顯著影響。」
-    </p>
-  </div>
+  <p>
+    Daniel 透過 Linux Foundation 的 Alpha Omega 計畫申請了存取權，簽了合約——然後等了好幾週，
+    什麼都沒來。最後是有人幫他代為執行了掃描，把報告傳給他。
+    （他刻意沒有透露那個人的身份。）
+  </p>
 
-  <div class="hn-comment">
-    <div class="hn-user">therealpygon</div>
-    <p>
-      到目前為止，我沒看到多少跡象顯示 Mythos 是多於「加了資安焦點的 Claude Opus harness」的東西。
-      更重要的問題是：誤報率是多少？如果它 90% 的時間是錯的，我們卻只聽到那些成功的例子，那這就是純行銷。
-    </p>
+  <p>
+    Mythos 掃了 curl 的 178K 行 C 程式碼。報告說找到 5 個「已確認的安全漏洞」。
+    Daniel 和他的團隊仔細審查後：
+  </p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-val">1</div>
+      <div class="stat-label">真實漏洞（低嚴重度）</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">3</div>
+      <div class="stat-label">誤報（文件已說明的行為）</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">1</div>
+      <div class="stat-label">「只是個 bug」</div>
+    </div>
   </div>
 
   <p>
-    不過也有人提出反面論點：
+    那個唯一確認的漏洞，預計跟著 curl 8.21.0（六月底）一起發布 CVE。
+    報告另外描述了約二十個 bug（非漏洞），幾乎沒有誤報，說明 Mythos 的閾值設得很高。
+  </p>
+
+  <p>Daniel 的結論：</p>
+
+  <div class="quote-block">
+    My personal conclusion can however not end up with anything else than that the big hype around this model so far was primarily marketing. I see no evidence that this setup finds issues to any particular higher or more advanced degree than the other tools have done before Mythos. Maybe this model is a little bit better, but even if it is, it is not better to a degree that seems to make a significant dent in code analyzing.
+    <cite>— Daniel Stenberg</cite>
+  </div>
+
+  <p>
+    但他也補充：這只是 curl 這個案例，而 curl 已經是全世界被翻得最透徹的程式碼庫之一，
+    其他沒有做過 AI 掃描的專案可能會發現大量問題。
+  </p>
+
+  <hr />
+
+  <h2>HN 的人在辯什麼</h2>
+
+  <p>
+    Daniel 的文章上了 Hacker News（653 分、266 則留言），討論的核心問題只有一個：
+    <strong>Mythos 到底是真的突破，還是行銷大過實質？</strong>
   </p>
 
   <div class="hn-comment">
     <div class="hn-user">thombles</div>
     <p>
-      curl 根本不是個好的測試標的。它是存在最久、被翻得最透徹的程式碼庫之一，
-      所有用過「不完全是 Mythos」的模型的研究者，早就有足夠時間在這上面找過漏洞了。
+      curl 根本不是個好的測試標的。它是被翻得最透徹的程式碼庫之一，之前所有 AI 工具的研究者都已有足夠時間掃過了。
       Daniel 說的可能是對的，但前提條件跟幾乎所有其他程式碼庫都不同。
     </p>
   </div>
@@ -299,149 +324,58 @@
   <div class="hn-comment">
     <div class="hn-user">atonse</div>
     <p>
-      我的解讀完全相反——Mythos 只找到一個漏洞，正好說明 curl 有多安全，而不是 Mythos 有多差。
-      看看 Mozilla 的案例：他們用 Mythos 跑 Firefox，找到了 271 個漏洞。
-      相同的方法論，不同的程式碼庫，結果差異極大。
+      我的解讀相反——Mythos 只找到一個，正好說明 curl 有多安全，不是 Mythos 有多差。
+      看看 Mozilla：用 Mythos 跑 Firefox，找到 271 個漏洞。
+      同樣方法論，不同程式碼庫，結果差異極大。
     </p>
   </div>
 
   <div class="hn-comment">
     <div class="hn-user">wongarsu</div>
     <p>
-      這裡同時有三件事在發生：1. 新模型 Mythos、2. 為找漏洞打造的輕量 harness、3. Anthropic 主動找開源專案合作。
-      我們知道三者合一的結果是找到很多漏洞（Mozilla 就是例子）。
-      curl 的案例是只用了 2 跟 3，但模型換成普通的頂級模型——Daniel 說這樣也找到了 12 個 CVE。
-      所以真正的問題是：Mythos 本身比一般頂級模型好多少？
+      這裡同時發生三件事：1. 新模型 Mythos、2. 為找漏洞打造的 harness、3. Anthropic 主動找開源專案合作。
+      curl 的案例只用了 2 跟 3，搭配普通頂級模型，Daniel 說這樣已找到十幾個 CVE。
+      真正的問題是：Mythos 模型本身比一般頂級模型好多少？
     </p>
   </div>
 
   <div class="hn-comment">
     <div class="hn-user">empath75</div>
     <p>
-      威脅不是針對高價值目標——那些早就有資金充裕的安全研究員和國家級駭客在用最先進工具翻了幾十年。
-      真正的威脅，是那些中低價值的目標，現在可以被完全不懂的隨機駭客，用這些工具翻個精光。
+      真正的威脅不是高價值目標——那些早就被有錢的研究員和國家級駭客翻了幾十年。
+      威脅是那些中低價值目標，現在可以被完全不懂的隨機駭客用這些工具翻個精光。
     </p>
   </div>
 
   <hr />
 
-  <h2>Mozilla 那 271 個漏洞算什麼？</h2>
+  <h2>這個時代的樣子</h2>
 
   <p>
-    討論裡另一個大爭點是 Mozilla 的案例。Mozilla 在部落格上說，他們和 Anthropic 合作，
-    用 Mythos 跑 Firefox，找到了 271 個安全漏洞，修補在 Firefox 150 裡。
-    這個數字非常誇張——但也有人開始質疑這篇文章的客觀性。
-  </p>
-
-  <div class="hn-comment">
-    <div class="hn-user">orblivion</div>
-    <p>
-      Mozilla 在幫 Anthropic 打行銷嗎？那篇文章開頭就寫「As part of our continued collaboration with Anthropic」……
-    </p>
-  </div>
-
-  <div class="hn-comment">
-    <div class="hn-user">spenczar5</div>
-    <p>
-      這叫「co-marketing（共同行銷）」——我打折、你在部落格誇我。
-      你的資料庫供應商、軟體工具廠商都在幹這件事，極為普遍。
-    </p>
-  </div>
-
-  <p>
-    當然也有人覺得這種解讀太陰謀論。
-    但不管動機如何，271 個漏洞是真實修補進 Firefox 150 的，這點很難被否認。
-  </p>
-
-  <hr />
-
-  <h2>這個時代到底意味著什麼？</h2>
-
-  <p>
-    把這些放在一起，輪廓大概是這樣：
+    整理起來，輪廓大概是這樣：
   </p>
 
   <p>
-    <strong>AI 資安工具確實在找真實漏洞。</strong>這不是 demo，不是 CTF——curl 拿到了 CVE，Firefox 修了 271 個漏洞。
-    成本急劇下降，速度急劇上升。
+    <strong>AI 資安工具正在系統性地掃遍全世界的程式碼庫。</strong>
+    AISLE、Zeropath、Codex Security、Mythos，以及其他還沒被點名的工具——它們不是在競賽，
+    是在共同翻遍這個世界的軟體基礎建設。
   </p>
 
   <p>
-    <strong>但 Mythos 是否真的是質的飛躍，還是只是量的疊加，目前沒有共識。</strong>
-    curl 的案例顯示，其他頂級模型加上好的 harness，也找得到漏洞。
-    Mythos 可能只是「又快又自動」，而不是「完全不同的東西」。
+    <strong>Mythos 是否特別厲害，目前仍有爭議。</strong>
+    但「AI 工具這整個類別」毫無疑問正在找到真實漏洞，規模和速度都是前所未有的。
   </p>
 
   <p>
-    <strong>真正值得注意的，或許不是 Mythos 比其他 AI 強多少，而是 AI 工具這整個類別的門檻在降低。</strong>
-    以前能把程式碼翻出 use-after-free 的，是頂尖資安研究員。
-    現在是任何人，包括攻擊者。
+    <strong>這個工具攻防兩端都能用。</strong>
+    Daniel 說得很清楚：壞人可以用同樣的工具，在修補完成之前找到那些問題。
+    維護者的負擔在爆炸性增長，修補速度趕不上發現速度，更新速度又趕不上修補速度。
   </p>
 
   <p>
-    Daniel Stenberg 的反應依然是最清醒的：<em>「AI-assisted security research is here, and it is finding real bugs.」</em>
-    沒有誇大，也沒有輕描淡寫。就是這樣，繼續工作。
-  </p>
-
-  <p>
-    但他在 Mythos 找到漏洞的三週前，其實已經寫了一篇更完整的觀察。
-  </p>
-
-  <hr />
-
-  <h2>「高品質混亂」時代</h2>
-
-  <p>
-    2026 年 4 月，Daniel 在他的部落格寫了一篇叫做
-    <a href="https://daniel.haxx.se/blog/2026/04/22/high-quality-chaos/" target="_blank" rel="noopener">High-Quality Chaos</a>
-    的文章。這是我覺得他對這個時代觀察最精準的一篇。
-  </p>
-
-  <p>
-    在此之前，curl 在 2025 年和 2026 年初飽受 AI 生成的垃圾漏洞回報轟炸——
-    大量不正確、沒有意義的安全回報，嚴重到他們在今年 2 月 1 日直接關閉了整個 bug bounty。
-  </p>
-
-  <p>
-    然後他們重開，觀察到了截然不同的景象：
-  </p>
-
-  <div class="hn-comment">
-    <div class="hn-user">Daniel Stenberg — High-Quality Chaos（2026/04/22）</div>
-    <p>
-      回報頻率是有史以來最高的，大約是 2025 年的兩倍——而 2025 年本身已經是前幾年的兩倍。<br /><br />
-      但垃圾問題消失了。確認為真實漏洞的比例回到了 2024 年 AI 出現之前的水準，大約 15–16%。<br /><br />
-      幾乎每一份回報現在都有使用 AI。你可以從措辭方式看出來，也可以從「大量高度相似的重複回報」這件事判斷——這不可能是人類手寫的。
-    </p>
-  </div>
-
-  <p>
-    他還在 Mastodon 做了一個非正式調查，詢問其他開源專案是否看到同樣趨勢。
-    回應他的有：Apache httpd、BIND、Django、Firefox、git、glibc、GnuTLS、Linux kernel、Python、Ruby、Wireshark……
-    幾乎橫跨整個重要開源軟體生態。
-  </p>
-
-  <p>
-    他的預估：curl 在 2026 年全年可能會發布接近 <strong>50 個 CVE</strong>。這將是歷史紀錄。
-  </p>
-
-  <div class="hn-comment">
-    <div class="hn-user">Daniel Stenberg</div>
-    <p>
-      對壞人來說，這可能正好是個好時機——他們可以用同樣的工具找到這麼多問題，
-      趁著各專案還沒有時間、人力和精力修完這些漏洞之前。<br /><br />
-      然後所有人還需要更新到修好的新版本——而我們都知道這通常需要更長的時間。<br /><br />
-      <strong>We are up for a bumpy ride.</strong>
-    </p>
-  </div>
-
-  <p>
-    「高品質混亂」——這就是他對這個時代的命名。AI 讓安全研究的品質和規模都同步提升，
-    但這個工具是中性的，攻防兩端都能用。維護者的負擔在爆炸性增長，修補的速度趕不上發現的速度。
-  </p>
-
-  <p>
-    Mythos 在三週後找到 curl 的漏洞，不過是這個大趨勢的一個小片段。
+    這就是神仙打架時代的實際樣子——不是電影裡的宏大對決，
+    是大量 AI 工具對著全世界的程式碼庫同時開火，每天都在產出新的 CVE，
+    而後面跟著的是不知道怎麼應對這個速度的開源維護者們。
   </p>
 
   <hr />
@@ -449,27 +383,18 @@
   <div class="callout">
     <div class="callout-title">📎 參考來源</div>
     <p style="margin-bottom:0.4rem;">
-      Daniel Stenberg 的原文：
       <a href="https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/" target="_blank" rel="noopener">
-        Mythos finds a curl vulnerability
+        Daniel Stenberg — Mythos finds a curl vulnerability
       </a>
     </p>
     <p style="margin-bottom:0.4rem;">
-      Daniel Stenberg 的另一篇：
       <a href="https://daniel.haxx.se/blog/2026/04/22/high-quality-chaos/" target="_blank" rel="noopener">
-        High-Quality Chaos
-      </a>
-    </p>
-    <p style="margin-bottom:0.4rem;">
-      curl CVE 公告：
-      <a href="https://curl.se/docs/CVE-2025-46498.html" target="_blank" rel="noopener">
-        CVE-2025-46498
+        Daniel Stenberg — High-Quality Chaos
       </a>
     </p>
     <p style="margin-bottom:0;">
-      HN 討論：
       <a href="https://news.ycombinator.com/item?id=48091737" target="_blank" rel="noopener">
-        Claude's extended thinking: less thinking is sometimes more
+        Hacker News 討論：Mythos Finds a Curl Vulnerability
       </a>
     </p>
   </div>
