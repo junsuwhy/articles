@@ -201,7 +201,7 @@
 
   <div class="quote-block">
     回報頻率是有史以來最高的，大約是 2025 年的兩倍——而 2025 年本身已是前幾年的兩倍。<br /><br />
-    垃圾問題不再是問題了。確認為真實漏洞的比例回到 2024 年 AI 出現之前的水準，大約 15–16%。<br /><br />
+    垃圾問題不再是問題了。確認為真實漏洞的比例回到甚至超越了 2024 年 AI 出現之前的水準，大約 15–16%。<br /><br />
     幾乎每一份回報現在都使用了 AI。你可以從措辭方式看出來，也可以從「大量高度相似的重複回報」判斷——這不可能是人類手寫的。
     <cite>— Daniel Stenberg，High-Quality Chaos（2026/04/22）</cite>
   </div>
@@ -244,6 +244,7 @@
 
   <div class="quote-block">
     AI reviews are used <em>in addition to</em> the human reviews. They help us, they don't replace us.
+    <br />（AI review 是人類 review 的補充，是幫助我們，而不是取代我們。）
     <cite>— Daniel Stenberg</cite>
   </div>
 
@@ -272,20 +273,9 @@
     Daniel 和他的團隊仔細審查後：
   </p>
 
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="stat-val">1</div>
-      <div class="stat-label">真實漏洞（低嚴重度）</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">3</div>
-      <div class="stat-label">誤報（文件已說明的行為）</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val">1</div>
-      <div class="stat-label">「只是個 bug」</div>
-    </div>
-  </div>
+  <p>
+    Daniel 和他的團隊仔細審查後，只剩下一個真實漏洞（低嚴重度），另外三個是誤報（文件中已說明的正常行為），第四個被認定為「只是個 bug」，不構成安全威脅。
+  </p>
 
   <p>
     那個唯一確認的漏洞，預計跟著 curl 8.21.0（六月底）一起發布 CVE。
@@ -296,6 +286,7 @@
 
   <div class="quote-block">
     My personal conclusion can however not end up with anything else than that the big hype around this model so far was primarily marketing. I see no evidence that this setup finds issues to any particular higher or more advanced degree than the other tools have done before Mythos. Maybe this model is a little bit better, but even if it is, it is not better to a degree that seems to make a significant dent in code analyzing.
+    <br />（我個人的結論只能是：這個模型目前的大量炒作，主要是行銷。我沒看到任何證據說明，它找到漏洞的能力比之前其他工具高出多少。也許這個模型稍微好一點，但就算是，也好得不足以在程式碼分析上造成顯著差異。）
     <cite>— Daniel Stenberg</cite>
   </div>
 
