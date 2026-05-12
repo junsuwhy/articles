@@ -260,103 +260,127 @@
 
   <hr />
 
-  <h2>另一場神仙打架：AI 在討論自己</h2>
+  <h2>但 HN 的人不買帳</h2>
 
   <p>
-    同一天，Hacker News 上有另一個熱烈討論，主題是 Anthropic 發表的研究：
-    Claude 的 Extended Thinking（延伸思考）模式，在<strong>簡單任務上反而表現更差</strong>。
+    Daniel 的文章一上 Hacker News，討論串就炸了（653 points、266 則留言）。
+    不過討論的走向，和「AI 好棒棒」完全不同方向——大家在認真辯論：
+    <strong>Mythos 到底是真正的突破，還是只是行銷？</strong>
   </p>
+
+  <div class="hn-comment">
+    <div class="hn-user">rzmmm（引用 Daniel 本人的話）</div>
+    <p>
+      「我個人的結論是：Mythos 目前的大量炒作主要是行銷。我沒有看到證據顯示這套工具找到漏洞的能力，明顯高於 Mythos 之前的其他工具。它可能好一點，但就算好，也還沒好到對程式碼分析造成顯著影響。」
+    </p>
+  </div>
+
+  <div class="hn-comment">
+    <div class="hn-user">therealpygon</div>
+    <p>
+      到目前為止，我沒看到多少跡象顯示 Mythos 是多於「加了資安焦點的 Claude Opus harness」的東西。
+      更重要的問題是：誤報率是多少？如果它 90% 的時間是錯的，我們卻只聽到那些成功的例子，那這就是純行銷。
+    </p>
+  </div>
 
   <p>
-    這兩個話題放在一起，形成了一幅很有意思的拼圖：
-    AI 工具強到可以去找 curl 的漏洞，但 AI 的能力邊界和運作機制，AI 自己也還在摸索。
+    不過也有人提出反面論點：
   </p>
 
-  <p>HN 討論裡有幾個觀點很精彩：</p>
-
   <div class="hn-comment">
-    <div class="hn-user">antman</div>
+    <div class="hn-user">thombles</div>
     <p>
-      用延伸思考來處理簡單任務，就像用大鐵鎚敲圖釘。
-      當模型被迫去「思考」一個其實不需要思考的問題，它可能反而會開始質疑自己本來正確的直覺——
-      就像人類過度分析一樣。
+      curl 根本不是個好的測試標的。它是存在最久、被翻得最透徹的程式碼庫之一，
+      所有用過「不完全是 Mythos」的模型的研究者，早就有足夠時間在這上面找過漏洞了。
+      Daniel 說的可能是對的，但前提條件跟幾乎所有其他程式碼庫都不同。
     </p>
   </div>
 
   <div class="hn-comment">
-    <div class="hn-user">myrmidon</div>
+    <div class="hn-user">atonse</div>
     <p>
-      這和人類專家的現象一模一樣。很有經驗的醫師、律師、工程師，
-      有時候在簡單問題上反而給出比資淺者更差的答案——
-      因為他們試圖把複雜框架套用在根本不需要的場合，看到了並不存在的複雜度。
+      我的解讀完全相反——Mythos 只找到一個漏洞，正好說明 curl 有多安全，而不是 Mythos 有多差。
+      看看 Mozilla 的案例：他們用 Mythos 跑 Firefox，找到了 271 個漏洞。
+      相同的方法論，不同的程式碼庫，結果差異極大。
     </p>
   </div>
 
   <div class="hn-comment">
-    <div class="hn-user">philwelch</div>
+    <div class="hn-user">wongarsu</div>
     <p>
-      延伸思考有一個很值得注意的效果：它<strong>降低了諂媚行為（sycophancy）</strong>。
-      普通模式的 AI 傾向給你想聽的答案；啟用延伸思考後，AI 更容易推論出「這個答案是 X，
-      即使你不喜歡聽」。這可能是最被低估的優點。
+      這裡同時有三件事在發生：1. 新模型 Mythos、2. 為找漏洞打造的輕量 harness、3. Anthropic 主動找開源專案合作。
+      我們知道三者合一的結果是找到很多漏洞（Mozilla 就是例子）。
+      curl 的案例是只用了 2 跟 3，但模型換成普通的頂級模型——Daniel 說這樣也找到了 12 個 CVE。
+      所以真正的問題是：Mythos 本身比一般頂級模型好多少？
     </p>
   </div>
 
   <div class="hn-comment">
-    <div class="hn-user">throwaway892238</div>
+    <div class="hn-user">empath75</div>
     <p>
-      這篇研究有一個隱含的承認：延伸思考版的 Claude 根本是另一個模型。
-      你不能把延伸思考「關掉」然後期待它表現得和基礎模型一樣。
-      用 RL 訓練過的推理模型，是不同的東西。
+      威脅不是針對高價值目標——那些早就有資金充裕的安全研究員和國家級駭客在用最先進工具翻了幾十年。
+      真正的威脅，是那些中低價值的目標，現在可以被完全不懂的隨機駭客，用這些工具翻個精光。
+    </p>
+  </div>
+
+  <hr />
+
+  <h2>Mozilla 那 271 個漏洞算什麼？</h2>
+
+  <p>
+    討論裡另一個大爭點是 Mozilla 的案例。Mozilla 在部落格上說，他們和 Anthropic 合作，
+    用 Mythos 跑 Firefox，找到了 271 個安全漏洞，修補在 Firefox 150 裡。
+    這個數字非常誇張——但也有人開始質疑這篇文章的客觀性。
+  </p>
+
+  <div class="hn-comment">
+    <div class="hn-user">orblivion</div>
+    <p>
+      Mozilla 在幫 Anthropic 打行銷嗎？那篇文章開頭就寫「As part of our continued collaboration with Anthropic」……
     </p>
   </div>
 
   <div class="hn-comment">
-    <div class="hn-user">jazzyjackson</div>
+    <div class="hn-user">spenczar5</div>
     <p>
-      有趣的是，Anthropic 願意發表這個研究。延伸思考 = 更多 tokens = 更多收入。
-      主動告訴開發者「你其實不需要用那麼多 tokens」，這有點違反短期商業利益。
-      但長期來說，讓開發者正確使用、真正獲得效益，才能留住他們。
+      這叫「co-marketing（共同行銷）」——我打折、你在部落格誇我。
+      你的資料庫供應商、軟體工具廠商都在幹這件事，極為普遍。
     </p>
   </div>
 
-  <div class="hn-comment">
-    <div class="hn-user">svilen_dobrev</div>
-    <p>
-      我特別喜歡「模型主動決定不思考」這個現象。它學到了「在簡單任務上過度推理是反效果的」，
-      然後自己選擇少用 thinking tokens。這是某種形式的元認知——有點令人著迷。
-    </p>
-  </div>
+  <p>
+    當然也有人覺得這種解讀太陰謀論。
+    但不管動機如何，271 個漏洞是真實修補進 Firefox 150 的，這點很難被否認。
+  </p>
 
   <hr />
 
   <h2>這個時代到底意味著什麼？</h2>
 
   <p>
-    把這兩件事放在一起，2026 年的 AI 生態有點奇妙：
+    把這些放在一起，輪廓大概是這樣：
   </p>
 
   <p>
-    一方面，<strong>AI 工具已經強到可以在真實世界的基礎軟體裡挖到 use-after-free 漏洞</strong>，
-    而且用的是正確的揭露流程、負責任地配合修補。這不是 demo，不是 CTF，是真實的 CVE。
+    <strong>AI 資安工具確實在找真實漏洞。</strong>這不是 demo，不是 CTF——curl 拿到了 CVE，Firefox 修了 271 個漏洞。
+    成本急劇下降，速度急劇上升。
   </p>
 
   <p>
-    另一方面，<strong>AI 的能力邊界依然很奇特</strong>。同一個 AI，在需要深度推理的任務上變聰明了，
-    在簡單任務上卻可能因為「想太多」而變笨。它有時候知道自己不需要想，有時候又不知道。
+    <strong>但 Mythos 是否真的是質的飛躍，還是只是量的疊加，目前沒有共識。</strong>
+    curl 的案例顯示，其他頂級模型加上好的 harness，也找得到漏洞。
+    Mythos 可能只是「又快又自動」，而不是「完全不同的東西」。
   </p>
 
   <p>
-    Daniel Stenberg 的反應最能說明這個時代的基調：<em>我預期未來會看到更多這樣的事。
-    AI 找到的漏洞，我們一樣當漏洞處理。</em>沒有末日，也沒有神話，就是工具變好了。
+    <strong>真正值得注意的，或許不是 Mythos 比其他 AI 強多少，而是 AI 工具這整個類別的門檻在降低。</strong>
+    以前能把程式碼翻出 use-after-free 的，是頂尖資安研究員。
+    現在是任何人，包括攻擊者。
   </p>
 
   <p>
-    神仙打架時代的有趣之處，或許不是哪個 AI 贏了哪個人類，
-    而是我們開始需要真正搞清楚：這個工具在什麼場合用？怎麼用？它的邊界在哪？
-  </p>
-
-  <p>
-    這些問題，以前只有工程師需要問。現在每個使用 AI 工具的人都該問。
+    Daniel Stenberg 的反應依然是最清醒的：<em>「AI-assisted security research is here, and it is finding real bugs.」</em>
+    沒有誇大，也沒有輕描淡寫。就是這樣，繼續工作。
   </p>
 
   <hr />
