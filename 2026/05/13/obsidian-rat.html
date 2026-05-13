@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你的筆記 App 差點成了駭客的後門</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #f5f0e8;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      color: #2c2416;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      min-height: 100vh;
+    }
+
+    /* Hero Banner with Parallax */
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: 580px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-banner-bg {
+      position: absolute;
+      inset: -120px 0;
+      background-image: url('/images/obsidian-rat-banner.png');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+    .hero-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(20,12,4,0.55) 0%, rgba(20,12,4,0.72) 100%);
+    }
+    .hero-banner-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 740px;
+    }
+    .hero-banner-label {
+      display: inline-block;
+      background: #f9e04b;
+      color: #2c2416;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      border-radius: 3px;
+      margin-bottom: 1.1rem;
+    }
+    .hero-banner-title {
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 0.9rem;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .hero-banner-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .hero-banner { height: 420px; }
+      .hero-banner-title { font-size: 1.6rem; }
+    }
+
+    /* Top bar */
+    .topbar {
+      background: #2c2416;
+      color: #f5f0e8;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .topbar-logo {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .topbar-sep {
+      opacity: 0.4;
+    }
+
+    .topbar-section {
+      opacity: 0.7;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 2rem;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: #f9e04b;
+      color: #2c2416;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      border-radius: 3px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.75rem, 5vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      color: #1a1008;
+    }
+
+    .hero-intro {
+      font-size: 1.05rem;
+      color: #5a4a30;
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid #d4c9b0;
+      padding-left: 1rem;
+    }
+
+    .hero-meta {
+      font-size: 0.82rem;
+      color: #9a8a72;
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero-meta .dot {
+      width: 4px;
+      height: 4px;
+      background: #c4b898;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Divider line */
+    .hr {
+      max-width: 740px;
+      margin: 0 auto 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #d4c9b0 20%, #d4c9b0 80%, transparent);
+      border: none;
+    }
+
+    /* Main container */
+    .main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* Section headers */
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-marker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9a8a72;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #1a1008;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: #f9e04b;
+      opacity: 0.5;
+      transform: translateY(2px);
+      z-index: -1;
+      border-radius: 2px;
+    }
+
+    p {
+      margin-bottom: 1.15rem;
+      color: #3a2e1c;
+      line-height: 1.85;
+    }
+
+    strong {
+      color: #1a1008;
+      font-weight: 700;
+    }
+
+    /* Steps */
+    .steps {
+      margin: 1.75rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      background: #ede8dc;
+      border: 1px solid #d4c9b0;
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      position: relative;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 2.1rem;
+      height: 2.1rem;
+      background: #2c2416;
+      color: #f5f0e8;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.88rem;
+      margin-top: 0.1rem;
+    }
+
+    .step-body {
+      flex: 1;
+    }
+
+    .step-title {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #1a1008;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-desc {
+      font-size: 0.95rem;
+      color: #5a4a30;
+      margin: 0;
+      line-height: 1.75;
+    }
+
+    /* Pull quote / callout */
+    .callout {
+      background: #ede8dc;
+      border: 1px solid #d4c9b0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+
+    .callout::before {
+      content: '"';
+      font-size: 4rem;
+      line-height: 0;
+      color: #d4c9b0;
+      position: absolute;
+      top: 1.75rem;
+      left: 0.75rem;
+      font-family: Georgia, serif;
+    }
+
+    .callout p {
+      font-size: 0.97rem;
+      font-style: italic;
+      color: #3a2e1c;
+      margin: 0 0 0.6rem 1.5rem;
+      line-height: 1.7;
+    }
+
+    .callout .callout-author {
+      font-size: 0.78rem;
+      color: #9a8a72;
+      font-style: normal;
+      font-weight: 700;
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .callout-highlight {
+      background: rgba(249, 224, 75, 0.25);
+      border-color: rgba(249, 224, 75, 0.6);
+    }
+
+    /* HN reactions */
+    .hn-reactions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .hn-item {
+      background: #ede8dc;
+      border: 1px solid #d4c9b0;
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+    }
+
+    .hn-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-bottom: 0.5rem;
+    }
+
+    .hn-tag-yellow { background: #f9e04b; color: #2c2416; }
+    .hn-tag-green { background: #a8d5ba; color: #1a3a28; }
+    .hn-tag-brown { background: #d4c9b0; color: #2c2416; }
+    .hn-tag-red { background: #f4b8a0; color: #3a1a10; }
+
+    .hn-item p {
+      font-size: 0.95rem;
+      color: #3a2e1c;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* Tips */
+    .tips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.5rem 0;
+    }
+
+    .tip {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .tip-check {
+      flex-shrink: 0;
+      width: 1.6rem;
+      height: 1.6rem;
+      background: #a8d5ba;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #1a3a28;
+      margin-top: 0.2rem;
+    }
+
+    .tip-body {
+      flex: 1;
+    }
+
+    .tip-title {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #1a1008;
+      margin-bottom: 0.2rem;
+    }
+
+    .tip-desc {
+      font-size: 0.93rem;
+      color: #5a4a30;
+      line-height: 1.75;
+    }
+
+    /* Highlight text */
+    .hl {
+      background: #f9e04b;
+      padding: 0 0.15em;
+      border-radius: 2px;
+    }
+
+    .hl-green {
+      background: #a8d5ba;
+      padding: 0 0.15em;
+      border-radius: 2px;
+    }
+
+    /* Warning box */
+    .warning-box {
+      background: #fff8e0;
+      border: 1.5px solid #f9e04b;
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .warning-box p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #3a2e1c;
+    }
+
+    .warning-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #8a6a00;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Closing */
+    .closing {
+      background: #2c2416;
+      color: #f5f0e8;
+      border-radius: 12px;
+      padding: 2rem 2.25rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    .closing p {
+      color: #e0d8c8;
+      font-size: 1rem;
+      margin: 0;
+      line-height: 1.8;
+    }
+
+    .closing strong {
+      color: #f9e04b;
+    }
+
+    /* Source note */
+    .source-note {
+      margin-top: 2rem;
+      padding: 0.85rem 1rem;
+      border: 1px dashed #d4c9b0;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      color: #9a8a72;
+      line-height: 1.6;
+    }
+    .source-note a {
+      color: #7a6a50;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .source-note a:hover {
+      color: #2c2416;
+    }
+    .main a {
+      color: #7a6a50;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .main a:hover {
+      color: #2c2416;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid #d4c9b0;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #9a8a72;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        font-size: 18px;
+      }
+
+      .hero {
+        padding: 2.5rem 1.25rem 1.75rem;
+      }
+
+      .hero h1 {
+        font-size: 1.85rem;
+      }
+
+      .main {
+        padding: 2rem 1.25rem 3rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      .closing {
+        padding: 1.5rem 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 18px;
+      }
+
+      .hero h1 {
+        font-size: 1.65rem;
+      }
+
+      .callout::before {
+        display: none;
+      }
+
+      .callout p {
+        margin-left: 0;
+      }
+
+      .callout .callout-author {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <span class="topbar-logo">TechSec</span>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-section">資安</span>
+  </div>
+
+  <div class="hero-banner">
+    <div class="hero-banner-bg" id="parallaxBg"></div>
+    <div class="hero-banner-overlay"></div>
+    <div class="hero-banner-content">
+      <div class="hero-banner-label">資安事件</div>
+      <h1 class="hero-banner-title">你的筆記 App 差點成了駭客的後門</h1>
+      <p class="hero-banner-sub">Obsidian 被用來傳遞木馬程式——但最可怕的不是技術，而是受害者根本不知道自己在幫駭客開門。</p>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-meta">
+      <span>2026 年 5 月 13 日</span>
+      <span class="dot"></span>
+      <span>Obsidian / 社交工程 / 加密貨幣</span>
+    </div>
+  </div>
+
+  <hr class="hr">
+
+  <main class="main">
+
+    <!-- Intro -->
+    <section class="section">
+      <p>
+        資安公司 <a href="https://www.elastic.co/security-labs/phantom-in-the-vault" target="_blank" rel="noopener">Elastic 最近發布報告</a>，揭露了一個非常精心設計的攻擊手法：
+        有一群人假裝是創投公司，專門鎖定加密貨幣從業者，
+        引導他們安裝一個帶有隱藏後門的 Obsidian 筆記資料庫。
+        等受害者下次打開 Obsidian，木馬程式就自動裝好了，整台電腦就被駭客拿走了。
+      </p>
+      <p>
+        聽起來很科幻對吧？但攻擊者用的全都是<strong>完全合法的工具</strong>——沒有利用任何漏洞，
+        沒有病毒掃描會報警，只是把壞東西藏在設定檔裡，然後等你親手按下開關。
+      </p>
+
+      <div class="warning-box">
+        <span class="warning-label">Obsidian CEO 怎麼說</span>
+        <p>
+          Obsidian CEO kepano 在 Hacker News 上親自出面說明：這是社交工程攻擊，需要受害者「主動略過多個安全警告」。
+          Elastic 報告中確實記錄了一起真實入侵事件，但安全系統在早期就偵測並阻斷了攻擊，木馬程式（PHANTOMPULSE）未能成功執行。kepano 所說的「沒有受害者」指的是最終感染，而非沒有人被鎖定攻擊。他同時承認，安全機制的重大更新已在規劃中。
+        </p>
+      </div>
+    </section>
+
+    <!-- Attack Steps -->
+    <section class="section">
+      <span class="section-marker">攻擊手法</span>
+      <h2>駭客是怎麼一步一步做的</h2>
+      <p>這不是隨機亂槍打鳥，而是高度針對個人的「定製化詐騙」。整個流程環環相扣：</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">LinkedIn 釣魚接觸</div>
+            <p class="step-desc">
+              攻擊者建立一個假的創投公司帳號，主動在 LinkedIn 聯繫加密貨幣交易員、DeFi 開發者、或金融分析師。
+              開場通常是「我們對你的項目很感興趣，想聊聊合作機會」——聽起來完全正常，誰都可能上鉤。
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">移到 Telegram，多人「演戲」建立信任</div>
+            <p class="step-desc">
+              話題轉移到 Telegram 之後，劇本才真正展開：三四個假帳號輪番出場，
+              一個扮法務、一個扮技術顧問、一個扮另一位投資人。
+              群組討論熱絡、分工細緻，讓你覺得這是個真實的機構。
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">「我們用 Obsidian 管理文件，你也來吧」</div>
+            <p class="step-desc">
+              攻擊者要求用 Obsidian 管理「共享的合作資料庫」，並提供一組帳號讓你同步。
+              這個要求聽起來很合理——很多加密貨幣基金確實用 Obsidian 做內部文件，
+              而且「共用筆記工具」這件事本身完全沒有警覺性。
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">開啟外掛同步，惡意設定悄悄進來</div>
+            <p class="step-desc">
+              你開啟外掛同步後，對方資料庫裡預先埋好的「Shell Commands」外掛設定自動同步到你的電腦。
+              這個外掛本身是 Obsidian 官方市場上完全合法的工具，功能是讓你自動執行電腦指令。
+              另一個叫「Hider」的外掛負責把相關設定介面藏起來，你幾乎看不到任何異常。
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">下次打開 Obsidian，木馬自動安裝完成</div>
+            <p class="step-desc">
+              攻擊者把惡意指令設定成「只要 Obsidian 一開啟就執行」。
+              你下次打開筆記的那一瞬間，一連串的隱藏指令開始運行：
+              自動連線到駭客的伺服器、下載木馬程式、靜默安裝。
+              過程中不會有任何彈跳視窗，整台電腦從此就在駭客的遠端控制之下。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Obsidian -->
+    <section class="section">
+      <span class="section-marker">根本原因</span>
+      <h2>為什麼 Obsidian 有這個問題？</h2>
+      <p>
+        Obsidian 的外掛沒有任何「沙盒」——也就是說，
+        任何外掛都可以<span class="hl">完整操作你的電腦</span>：讀寫任何檔案、連線到網路、執行任何系統指令。
+        就像是每一個外掛都有一把你家的鑰匙，不限任何房間。
+      </p>
+      <p>
+        更可怕的地方在於：攻擊者根本不需要寫惡意外掛，他們只是利用了一個<strong>原本合法的外掛的合法功能</strong>，
+        把壞指令藏在設定檔裡。傳統的病毒掃描對這種手法幾乎束手無策。
+      </p>
+      <p>
+        這個攻擊不只針對 Windows——macOS 用戶同樣中招，只是執行的是不同的隱藏指令，
+        並透過 Telegram 頻道作為備援的指令接收管道。跨平台、手法一致，顯示這是精心設計的攻擊工具。
+      </p>
+    </section>
+
+    <!-- Protection Tips -->
+    <section class="section">
+      <span class="section-marker">自保方法</span>
+      <h2>如何保護自己</h2>
+      <p>好消息是：這個攻擊需要大量的人工接觸和社交工程鋪墊，不是隨機掃射。
+         知道手法之後，防護其實不難：</p>
+
+      <div class="tips">
+        <div class="tip">
+          <div class="tip-check">✓</div>
+          <div class="tip-body">
+            <div class="tip-title">不要用陌生人給的 vault 或帳號</div>
+            <p class="tip-desc">
+              任何人提供你「現成的 Obsidian 資料庫」或「共用帳號」，
+              都應該立刻提高警戒。這是整個攻擊手法的核心前提——沒有這一步，後面什麼都無法發生。
+            </p>
+          </div>
+        </div>
+        <div class="tip">
+          <div class="tip-check">✓</div>
+          <div class="tip-body">
+            <div class="tip-title">開啟外掛後，馬上去設定裡檢查</div>
+            <p class="tip-desc">
+              如果你用 Shell Commands 這類「可以執行電腦指令」的外掛，
+              每次啟用後要立刻進去設定確認，有沒有你不認識的自動觸發指令。
+            </p>
+          </div>
+        </div>
+        <div class="tip">
+          <div class="tip-check">✓</div>
+          <div class="tip-body">
+            <div class="tip-title">陌生的「商業合作」要先驗明正身</div>
+            <p class="tip-desc">
+              有人在 LinkedIn 或 Telegram 主動聯繫你談合作、並要求你安裝特定工具，
+              先 Google 公司名稱、查域名、撥打公開電話——不花五分鐘核實身份，不做任何下一步。
+            </p>
+          </div>
+        </div>
+        <div class="tip">
+          <div class="tip-check">✓</div>
+          <div class="tip-body">
+            <div class="tip-title">定期清理不用的外掛</div>
+            <p class="tip-desc">
+              不用的外掛留著只是增加風險面。每隔一段時間審查已安裝的外掛清單，
+              不認識的、很久沒用的，直接刪掉。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing -->
+    <div class="closing">
+      <p>
+        這個攻擊用的全是合法工具，真正的武器是<strong>你的信任</strong>。<br>
+        在工具越來越強大的時代，每次「安裝任何東西」，都值得停下來想一秒鐘。
+      </p>
+    </div>
+
+    <div class="source-note">
+      資料來源：<a href="https://www.elastic.co/security-labs/phantom-in-the-vault" target="_blank" rel="noopener">Elastic Security Labs REF6598 研究報告</a>、<a href="https://news.ycombinator.com/item?id=48088576" target="_blank" rel="noopener">Hacker News 討論串</a>、<a href="https://socprime.com/active-threats/vault-obsidian-abused-to-deliver-phantompulse-rat/" target="_blank" rel="noopener">SOC Prime 攻擊手法分析</a>、Obsidian CEO kepano 官方留言。
+      本文係依公開披露資料整理，供一般讀者理解事件脈絡，不構成技術操作指引。
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 TechSec Blog &nbsp;·&nbsp; CC BY 4.0 授權
+  </footer>
+
+  <script>
+    const bg = document.getElementById('parallaxBg');
+    const banner = bg ? bg.closest('.hero-banner') : null;
+    if (bg && banner) {
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const bannerH = banner.offsetHeight;
+        if (scrollY < bannerH + 200) {
+          bg.style.transform = `translateY(${scrollY * 0.4}px)`;
+        }
+      }, { passive: true });
+    }
+  </script>
+</body>
+</html>
