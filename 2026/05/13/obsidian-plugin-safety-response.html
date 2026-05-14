@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Obsidian 的回應來了：外掛安全危機後，官方推出了什麼？</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', 'Noto Serif TC', serif;
+      background: #f5f0e8;
+      color: #2a2520;
+      font-size: 17px;
+      line-height: 1.85;
+    }
+
+    @media (max-width: 768px) {
+      body { font-size: 18px; }
+    }
+
+    header {
+      background: #1a1530;
+      padding: 56px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, #3a2860 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .prev-link {
+      display: inline-block;
+      font-family: sans-serif;
+      font-size: 0.78rem;
+      color: #9a88bb;
+      border: 1px solid #3a2860;
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-bottom: 22px;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .prev-link:hover { background: #2a1e48; color: #c0aae0; }
+    .prev-link::before { content: '← '; }
+
+    .tag {
+      display: inline-block;
+      background: #7c5cbf;
+      color: #f0e8ff;
+      font-size: 0.72rem;
+      font-family: sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 3px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.7rem);
+      font-weight: 700;
+      line-height: 1.3;
+      color: #f0ece8;
+      max-width: 760px;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .subtitle {
+      font-size: 1.02rem;
+      color: #9a90aa;
+      max-width: 600px;
+      margin: 0 auto;
+      font-style: italic;
+      position: relative;
+    }
+
+    .meta {
+      font-family: sans-serif;
+      font-size: 0.82rem;
+      color: #6a5e7a;
+      margin-top: 24px;
+      letter-spacing: 0.05em;
+      position: relative;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: #3a2860;
+      margin: 48px 0 16px;
+      padding-left: 16px;
+      border-left: 3px solid #7c5cbf;
+      line-height: 1.4;
+    }
+
+    p { margin-bottom: 1.2em; color: #2a2520; }
+
+    a {
+      color: #6a44b0;
+      text-decoration: none;
+      border-bottom: 1px solid #c0a8e0;
+      transition: color 0.2s;
+    }
+    a:hover { color: #9c6cdd; }
+
+    .lead {
+      font-size: 1.15rem;
+      color: #3a3028;
+      line-height: 1.95;
+      border-left: 3px solid #c0a8e0;
+      padding-left: 20px;
+      margin-bottom: 2.2em;
+      background: #ede8f8;
+      padding: 18px 20px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid #ddd8f0;
+      border-radius: 10px;
+      padding: 20px 22px;
+      box-shadow: 0 2px 8px rgba(60,40,120,0.06);
+    }
+
+    .feature-card .icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      color: #3a2860;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      font-size: 0.92rem;
+      color: #5a5060;
+      margin-bottom: 0;
+      line-height: 1.65;
+    }
+
+    .coming-soon-card {
+      background: #f8f4ff;
+      border: 1px dashed #b0a0d8;
+      border-radius: 10px;
+      padding: 20px 22px;
+    }
+
+    .coming-soon-card h3 {
+      font-size: 0.88rem;
+      font-family: sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9a80c8;
+      margin-bottom: 12px;
+    }
+
+    .coming-soon-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .coming-soon-card li {
+      padding: 8px 0;
+      border-bottom: 1px solid #e0d8f0;
+      font-size: 0.95rem;
+      color: #4a3870;
+    }
+
+    .coming-soon-card li:last-child { border-bottom: none; }
+    .coming-soon-card li::before { content: '◦ '; color: #9a80c8; }
+
+    blockquote {
+      background: #ede8f8;
+      border-left: 3px solid #7c5cbf;
+      margin: 28px 0;
+      padding: 16px 20px;
+      font-style: italic;
+      color: #4a3870;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .context-box {
+      background: #1a1530;
+      color: #c8c0e0;
+      border-radius: 10px;
+      padding: 22px 26px;
+      margin: 32px 0;
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    .context-box strong { color: #e0d4ff; }
+
+    .context-box a {
+      color: #b09ae0;
+      border-bottom-color: #5a4880;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+      margin: 24px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: #c0a8e0;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 7px;
+      width: 10px;
+      height: 10px;
+      background: #7c5cbf;
+      border-radius: 50%;
+      border: 2px solid #f5f0e8;
+    }
+
+    .timeline-item .date {
+      font-family: sans-serif;
+      font-size: 0.78rem;
+      color: #9a80c8;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .timeline-item p { margin-bottom: 0; }
+
+    .verdict-box {
+      background: linear-gradient(135deg, #f0ebff, #e8e0f8);
+      border: 1px solid #c0a8e0;
+      border-radius: 12px;
+      padding: 28px 28px;
+      margin: 40px 0;
+    }
+
+    .verdict-box h3 {
+      color: #4a2890;
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+    }
+
+    .verdict-box p { color: #3a2860; }
+
+    .source-links {
+      background: #fff;
+      border: 1px solid #ddd8f0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-top: 48px;
+    }
+
+    .source-links h3 {
+      font-family: sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9a88bb;
+      margin-bottom: 14px;
+    }
+
+    .source-links ul { list-style: none; }
+    .source-links li {
+      padding: 6px 0;
+      border-bottom: 1px solid #ece8f8;
+      font-size: 0.9rem;
+      font-family: sans-serif;
+      color: #5a5070;
+    }
+    .source-links li:last-child { border-bottom: none; }
+
+    .separator {
+      border: none;
+      border-top: 1px solid #d8d0e8;
+      margin: 40px 0;
+    }
+
+    @media (max-width: 768px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      h2 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/2026/05/13/obsidian-rat.html" class="prev-link">上篇：Obsidian 外掛被植入 RAT 的資安事件</a>
+  <div class="tag">Obsidian · 外掛安全 · 後續進展</div>
+  <h1>Obsidian 的回應來了：<br>外掛安全危機後，官方推出了什麼？</h1>
+  <p class="subtitle">自動化審查、安全評分卡、社群目錄全面翻新——Obsidian 終於正視了那個一直存在的漏洞</p>
+  <p class="meta">2026 年 5 月 13 日 &nbsp;·&nbsp; 整理自 Obsidian 官方公告</p>
+</header>
+
+<main>
+
+  <div class="context-box">
+    <strong>上篇背景：</strong>資安研究機構 Elastic 在 2026 年 5 月揭露，攻擊者透過 Obsidian 外掛植入了一支名為 <strong>PHANTOMPULSE</strong> 的遠端存取木馬（RAT），在多個作業系統上悄悄建立後門。事件的根本原因之一，是 Obsidian 的外掛審查機制有嚴重盲點：<strong>只有初次提交會被人工審查，之後的更新版本完全沒有人看</strong>。→ <a href="/2026/05/13/obsidian-rat.html">閱讀上篇完整報導</a>
+  </div>
+
+  <p class="lead">
+    就在 RAT 事件曝光的隔天，Obsidian 官方在 2026 年 5 月 12 日發布了一篇公告，宣布推出全新的外掛社群目錄與自動化審查系統。時間點不是巧合——這是 Obsidian 面對社群長久以來對安全機制不足的批評，給出的一個系統性回答。
+  </p>
+
+  <h2>問題的根源：審查做不完</h2>
+
+  <p>
+    Obsidian 外掛生態的規模遠超很多人的想像：自 2020 年開放 API 以來，社群貢獻了超過 <strong>4,000 個外掛和主題</strong>，總下載次數已突破 <strong>1.2 億次</strong>。
+  </p>
+
+  <p>
+    但審查機制一直停留在「人工、只審初次提交」的階段。隨著 AI 程式工具讓外掛開發更快速，待審隊列愈積愈長——公告發布前，光是積壓的提交就高達 <strong>2,300 件</strong>。更關鍵的問題是：即便初次審查通過，<strong>後續每一次版本更新都沒有人看</strong>。這正是 PHANTOMPULSE 攻擊者趁虛而入的破口。
+  </p>
+
+  <h2>新推出的安全機制</h2>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <span class="icon">🔍</span>
+      <h3>自動化掃描，每個版本都審</h3>
+      <p>不再只審初次提交。每一次版本更新都會自動掃描程式碼品質與安全漏洞，包含惡意程式偵測。開發者可在 dashboard 看到詳細的建議、警告與失敗標記。</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">📋</span>
+      <h3>安全評分卡（Scorecard）</h3>
+      <p>每個外掛都會有公開的評分卡，讓用戶在安裝前就能看到該外掛的安全審查狀態。評分卡會隨時間持續改善。</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">🏛️</span>
+      <h3>全新社群目錄</h3>
+      <p>新的 Obsidian Community 網站重新整理了外掛的瀏覽體驗，支援分類、搜尋、排序，並為付費外掛和官方整合加上清楚的標籤。</p>
+    </div>
+    <div class="feature-card">
+      <span class="icon">👨‍💻</span>
+      <h3>開發者 Dashboard</h3>
+      <p>開發者可登入新系統管理自己的外掛、追蹤審查狀態、在正式發布前用「preview scan」測試任意分支。</p>
+    </div>
+  </div>
+
+  <h2>人工審查沒有消失，只是轉向</h2>
+
+  <p>
+    這次的重點是「自動化」——但 Obsidian 明確表示人工審查不會取消。新系統讓人力可以集中在真正需要深度檢查的地方：
+  </p>
+
+  <ul style="list-style: none; padding: 0; margin: 16px 0;">
+    <li style="padding: 8px 0; border-bottom: 1px solid #e0d8f0;">→ 熱門外掛（高下載量、高影響力）</li>
+    <li style="padding: 8px 0; border-bottom: 1px solid #e0d8f0;">→ 精選推薦外掛</li>
+    <li style="padding: 8px 0;">→ 社群舉報的可疑外掛</li>
+  </ul>
+
+  <p>任何使用者都可以直接向 Obsidian 官方<a href="https://obsidian.md/security" target="_blank">舉報安全問題</a>。</p>
+
+  <h2>接下來還有什麼？</h2>
+
+  <div class="coming-soon-card">
+    <h3>Coming Soon</h3>
+    <ul>
+      <li><strong>權限揭露</strong>：外掛將必須事先聲明它會存取什麼——網路、檔案系統、剪貼簿等。安裝前就能看到。</li>
+      <li><strong>作者驗證標章</strong>：通過額外身份驗證且信譽良好的開發者，將獲得「Verified」標籤。</li>
+      <li><strong>團隊管控工具</strong>：企業用戶可以設定允許安裝的外掛白名單，以及在組織內分發私有外掛。</li>
+    </ul>
+  </div>
+
+  <hr class="separator" />
+
+  <h2>這些機制夠用嗎？</h2>
+
+  <p>
+    老實說，這次的更新補上了一個長期被忽視的明顯漏洞，方向是對的。但有幾個值得留意的地方：
+  </p>
+
+  <blockquote>
+    「所有已通過舊審查的外掛和主題，即使無法通過新標準，目前仍可繼續使用。我們尚未設定最後期限，將與社群開發者合作定義轉換時程。」
+    <cite style="display:block;margin-top:8px;font-size:0.85rem;color:#7a68a0;font-style:normal;">— Obsidian 官方公告</cite>
+  </blockquote>
+
+  <p>
+    換句話說：<strong>目前有問題的舊外掛並不會立刻消失</strong>。已安裝的外掛中，可能仍有一些過去就潛伏著風險的項目，而何時清除尚未確定。
+  </p>
+
+  <p>
+    「權限揭露」功能還沒上線——而這其實才是用戶最需要的資訊。一個外掛能不能存取網路、讀不讀你的所有筆記，這些應該是安裝前的基本告知，不是未來的路線圖項目。
+  </p>
+
+  <p>
+    自動化掃描的品質也需要時間驗證。Obsidian 自己也承認評分卡「可能有誤判（false positives and false negatives）」——這是誠實的說法，也意味著新系統仍在磨合期。
+  </p>
+
+  <div class="verdict-box">
+    <h3>怎麼看這次更新</h3>
+    <p>
+      這不是一次「危機過去了」的宣示，而是 Obsidian 終於開始系統性地處理一個<strong>從第一天就存在的設計缺陷</strong>。4,000 個外掛、1.2 億次下載、但只有初次提交被審查——這個組合在安全角度上一直是定時炸彈。
+    </p>
+    <p style="margin-top: 12px;">
+      現在炸彈被引爆了，修補工作也開始了。對普通用戶來說，短期內最務實的建議還是：<strong>只安裝你真正需要的外掛，遇到不認識的來源要多查一下</strong>。等「權限揭露」功能正式上線，再根據外掛宣告的存取範圍做判斷，會是更好的時機。
+    </p>
+  </div>
+
+  <div class="source-links">
+    <h3>參考來源</h3>
+    <ul>
+      <li>📢 <a href="https://obsidian.md/blog/future-of-plugins/" target="_blank">Obsidian 官方公告 — The future of Obsidian plugins（2026-05-12）</a></li>
+      <li>🌐 <a href="https://obsidian.md/community" target="_blank">Obsidian Community 新社群目錄</a></li>
+      <li>📝 <a href="/2026/05/13/obsidian-rat.html">上篇：Obsidian 外掛被植入 PHANTOMPULSE RAT 的資安事件</a></li>
+    </ul>
+  </div>
+
+</main>
+
+</body>
+</html>
