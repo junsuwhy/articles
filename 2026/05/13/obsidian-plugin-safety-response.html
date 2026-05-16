@@ -21,9 +21,9 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: #f5f0e8;
+      background-color: #faf6ef;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      color: #2c2416;
+      color: #2c2010;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
       font-size: 18px;
       line-height: 1.85;
@@ -55,7 +55,7 @@
     .hero-banner-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(40,30,60,0.50) 0%, rgba(30,20,50,0.72) 100%);
+      background: linear-gradient(to bottom, rgba(60,30,10,0.45) 0%, rgba(50,24,8,0.70) 100%);
     }
     .hero-banner-content {
       position: relative;
@@ -80,8 +80,8 @@
     .hero-banner-prev:hover { background: rgba(255,255,255,0.12); color: #fff; }
     .hero-banner-label {
       display: inline-block;
-      background: #c8a8f8;
-      color: #1a0a38;
+      background: #f0a830;
+      color: #2c1800;
       font-size: 0.75rem;
       font-weight: 800;
       letter-spacing: 0.1em;
@@ -127,45 +127,45 @@
     h2 {
       font-size: 1.4rem;
       font-weight: 800;
-      color: #3a1a60;
+      color: #5a2e00;
       margin: 48px 0 16px;
       padding-left: 14px;
-      border-left: 3px solid #9b6ee0;
+      border-left: 3px solid #d07820;
       line-height: 1.4;
     }
 
     p { margin-bottom: 1.2em; }
 
     a {
-      color: #6a30c0;
+      color: #b05010;
       text-decoration: none;
-      border-bottom: 1px solid #c0a0e8;
+      border-bottom: 1px solid #e0b880;
       transition: color 0.2s;
     }
-    a:hover { color: #9050e0; }
+    a:hover { color: #d07020; }
 
     .lead {
       font-size: 1.1rem;
       line-height: 1.95;
-      background: #ede8f8;
-      border-left: 3px solid #9b6ee0;
+      background: #fef3e0;
+      border-left: 3px solid #d07820;
       padding: 18px 20px;
       border-radius: 0 8px 8px 0;
       margin-bottom: 2em;
-      color: #2a1a50;
+      color: #3a2010;
     }
 
     .context-box {
-      background: #2c1e48;
-      color: #c8bce0;
+      background: #3a2008;
+      color: #e8d4b8;
       border-radius: 10px;
       padding: 20px 24px;
       margin: 0 0 32px;
       font-size: 0.95rem;
       line-height: 1.75;
     }
-    .context-box strong { color: #e8d8ff; }
-    .context-box a { color: #b890f0; border-bottom-color: #5a3888; }
+    .context-box strong { color: #fde8c0; }
+    .context-box a { color: #f0b860; border-bottom-color: #784010; }
 
     .feature-grid {
       display: grid;
@@ -175,23 +175,93 @@
     }
     .feature-card {
       background: #fff;
-      border: 1.5px solid #ddd0f4;
+      border: 1.5px solid #e8d8c0;
       border-radius: 10px;
       padding: 18px 20px;
-      box-shadow: 0 2px 8px rgba(80,40,160,0.06);
+      box-shadow: 0 2px 8px rgba(160,80,20,0.07);
     }
     .feature-card .icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
     .feature-card h3 {
       font-size: 1rem;
       font-weight: 800;
-      color: #3a1a60;
+      color: #5a2e00;
       margin-bottom: 8px;
     }
-    .feature-card p { font-size: 0.92rem; color: #5a4870; margin-bottom: 0; line-height: 1.6; }
+    .feature-card p { font-size: 0.92rem; color: #6a4820; margin-bottom: 0; line-height: 1.6; }
+
+    /* ── Scorecard Demo ── */
+    .scorecard-demo {
+      background: #fff;
+      border: 1.5px solid #e8d8c0;
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin: 24px 0;
+      box-shadow: 0 2px 12px rgba(160,80,20,0.07);
+    }
+    .scorecard-demo .sc-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .scorecard-demo .sc-score {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #2a7a20;
+      line-height: 1;
+    }
+    .scorecard-demo .sc-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #3a2010;
+    }
+    .scorecard-demo .sc-note {
+      font-size: 0.8rem;
+      color: #9a8060;
+      font-style: italic;
+      margin-top: 2px;
+    }
+    .sc-bar-wrap { margin-bottom: 14px; }
+    .sc-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #4a2e10;
+    }
+    .sc-bar-label span { color: #2a7a20; font-weight: 800; }
+    .sc-bar {
+      height: 8px;
+      background: #f0e8d8;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .sc-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, #60b840, #40a820);
+      border-radius: 4px;
+    }
+    .sc-items { list-style: none; padding: 0; margin-top: 14px; }
+    .sc-items li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f0e8d8;
+      font-size: 0.88rem;
+      color: #5a3a18;
+      line-height: 1.5;
+    }
+    .sc-items li:last-child { border-bottom: none; }
+    .sc-ok::before { content: '✓'; color: #40a020; font-weight: 700; flex-shrink: 0; }
+    .sc-warn::before { content: '⚠'; color: #d08020; flex-shrink: 0; }
+    .sc-info::before { content: '○'; color: #a08060; flex-shrink: 0; }
 
     .coming-soon-card {
-      background: #f8f4ff;
-      border: 1.5px dashed #c0a0e8;
+      background: #fef8ec;
+      border: 1.5px dashed #e0b870;
       border-radius: 10px;
       padding: 18px 22px;
       margin: 20px 0;
@@ -201,32 +271,32 @@
       font-weight: 800;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #9b6ee0;
+      color: #c07820;
       margin-bottom: 12px;
     }
     .coming-soon-card ul { list-style: none; padding: 0; }
     .coming-soon-card li {
       padding: 8px 0;
-      border-bottom: 1px solid #e0d0f8;
+      border-bottom: 1px solid #f0e0c0;
       font-size: 0.95rem;
-      color: #3a1a60;
+      color: #5a3010;
     }
     .coming-soon-card li:last-child { border-bottom: none; }
-    .coming-soon-card li::before { content: '◦ '; color: #9b6ee0; }
+    .coming-soon-card li::before { content: '◦ '; color: #c07820; }
 
     blockquote {
-      background: #ede8f8;
-      border-left: 3px solid #9b6ee0;
+      background: #fef3e0;
+      border-left: 3px solid #d07820;
       margin: 28px 0;
       padding: 16px 20px;
       font-style: italic;
-      color: #4a2870;
+      color: #5a3010;
       border-radius: 0 8px 8px 0;
     }
 
     .verdict-box {
-      background: linear-gradient(135deg, #f0eaff, #e8e0f8);
-      border: 1.5px solid #c0a0e8;
+      background: linear-gradient(135deg, #fef6e4, #fdecd0);
+      border: 1.5px solid #e8c888;
       border-radius: 12px;
       padding: 26px 28px;
       margin: 40px 0;
@@ -234,14 +304,14 @@
     .verdict-box h3 {
       font-size: 1.05rem;
       font-weight: 800;
-      color: #4a1888;
+      color: #7a3800;
       margin-bottom: 12px;
     }
-    .verdict-box p { color: #3a1a50; }
+    .verdict-box p { color: #4a2808; }
 
     .source-links {
       background: #fff;
-      border: 1.5px solid #ddd0f4;
+      border: 1.5px solid #e8d8c0;
       border-radius: 8px;
       padding: 18px 22px;
       margin-top: 48px;
@@ -251,29 +321,29 @@
       font-weight: 800;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #9b6ee0;
+      color: #c07820;
       margin-bottom: 12px;
     }
     .source-links ul { list-style: none; }
     .source-links li {
       padding: 6px 0;
-      border-bottom: 1px solid #ece4f8;
+      border-bottom: 1px solid #f0e8d8;
       font-size: 0.9rem;
-      color: #5a4870;
+      color: #6a4820;
     }
     .source-links li:last-child { border-bottom: none; }
 
-    .separator { border: none; border-top: 1px solid #d8cce8; margin: 40px 0; }
+    .separator { border: none; border-top: 1px solid #e0d0b8; margin: 40px 0; }
 
     ul.checklist { list-style: none; padding: 0; margin: 14px 0; }
     ul.checklist li {
       padding: 8px 0;
-      border-bottom: 1px solid #e4dcf4;
+      border-bottom: 1px solid #ecdcc8;
       font-size: 0.97rem;
-      color: #3a2860;
+      color: #4a2c10;
     }
     ul.checklist li:last-child { border-bottom: none; }
-    ul.checklist li::before { content: '→ '; color: #9b6ee0; font-weight: 700; }
+    ul.checklist li::before { content: '→ '; color: #d07820; font-weight: 700; }
 
     @media (max-width: 768px) {
       .feature-grid { grid-template-columns: 1fr; }
@@ -342,6 +412,39 @@
       <p>開發者可登入新系統管理自己的外掛、追蹤審查狀態、在正式發布前用「preview scan」測試任意分支。</p>
     </div>
   </div>
+
+  <h2>評分卡長什麼樣子？</h2>
+
+  <p>已經可以在 <a href="https://community.obsidian.md" target="_blank">community.obsidian.md</a> 看到每個外掛的評分卡。以人氣外掛 Templater 為例，它的評分卡長這樣：</p>
+
+  <div class="scorecard-demo">
+    <div class="sc-header">
+      <div class="sc-score">92%</div>
+      <div>
+        <div class="sc-title">Templater</div>
+        <div class="sc-note">⚠ Scorecard 目前仍是 Work in progress，可能有誤判</div>
+      </div>
+    </div>
+    <div class="sc-bar-wrap">
+      <div class="sc-bar-label">Health（健康度） <span>Excellent</span></div>
+      <div class="sc-bar"><div class="sc-bar-fill" style="width:95%"></div></div>
+    </div>
+    <div class="sc-bar-wrap">
+      <div class="sc-bar-label">Review（安全審查） <span>Satisfactory</span></div>
+      <div class="sc-bar"><div class="sc-bar-fill" style="width:75%"></div></div>
+    </div>
+    <ul class="sc-items">
+      <li class="sc-ok">無已知漏洞的相依套件</li>
+      <li class="sc-ok">未偵測到混淆程式碼</li>
+      <li class="sc-ok">Build 與原始碼一致，且有 GitHub artifact 簽章驗證</li>
+      <li class="sc-warn">Release zip 包含額外檔案</li>
+      <li class="sc-info">外掛會發出對外網路請求（fetch()）</li>
+      <li class="sc-info">可存取 Vault 所有筆記（讀取 / 寫入）</li>
+      <li class="sc-info">可存取剪貼簿</li>
+    </ul>
+  </div>
+
+  <p>「Disclosure（揭露事項）」這一欄目前是資訊性標注，讓你知道這個外掛有哪些存取能力，不代表一定有問題。未來這些項目將成為用戶安裝前必看的標準欄位。</p>
 
   <h2>人工審查沒有消失，只是轉向</h2>
 
