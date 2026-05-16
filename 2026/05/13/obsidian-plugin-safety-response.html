@@ -371,11 +371,11 @@
 <main>
 
   <div class="context-box">
-    <strong>上篇背景：</strong>資安研究機構 Elastic 在 2026 年 5 月揭露，攻擊者透過 Obsidian 外掛植入了一支名為 <strong>PHANTOMPULSE</strong> 的遠端存取木馬（RAT），在多個作業系統上悄悄建立後門。事件的根本原因之一，是 Obsidian 的外掛審查機制有嚴重盲點：<strong>只有初次提交會被人工審查，之後的更新版本完全沒有人看</strong>。→ <a href="/2026/05/13/obsidian-rat.html">閱讀上篇完整報導</a>
+    <strong>上篇背景：</strong>資安公司 Elastic 在 2026 年 <strong>4 月 14 日</strong>發布報告，揭露攻擊者透過社交工程誘騙受害者開啟惡意 Obsidian Vault，利用 <strong>Shell Commands</strong> 和 <strong>Hider</strong> 這兩個合法外掛的功能，部署了名為 <strong>PHANTOMPULSE</strong> 的遠端存取木馬（RAT）。攻擊者並未入侵官方外掛目錄，而是濫用了合法外掛的系統存取能力。→ <a href="/2026/05/13/obsidian-rat.html">閱讀上篇完整報導</a>
   </div>
 
   <p class="lead">
-    就在 RAT 事件曝光的隔天，Obsidian 官方在 2026 年 5 月 12 日發布了一篇公告，宣布推出全新的外掛社群目錄與自動化審查系統。時間點不是巧合——這是 Obsidian 面對社群長久以來對安全機制不足的批評，給出的一個系統性回答。
+    4 月的 PHANTOMPULSE 事件讓外界開始關注 Obsidian 外掛生態的安全問題。近一個月後，Obsidian 官方在 2026 年 5 月 12 日發布了一篇公告，宣布推出全新的外掛社群目錄與自動化審查系統。這是 Obsidian 面對社群長久以來對安全機制不足的批評，給出的一個系統性回答。
   </p>
 
   <h2>問題的根源：審查做不完</h2>
@@ -385,7 +385,7 @@
   </p>
 
   <p>
-    但審查機制一直停留在「人工、只審初次提交」的階段。隨著 AI 程式工具讓外掛開發更快速，待審隊列愈積愈長——公告發布前，光是積壓的提交就高達 <strong>2,300 件</strong>。更關鍵的問題是：即便初次審查通過，<strong>後續每一次版本更新都沒有人看</strong>。這正是 PHANTOMPULSE 攻擊者趁虛而入的破口。
+    但審查機制一直停留在「人工、只審初次提交」的階段。隨著 AI 程式工具讓外掛開發更快速，待審隊列愈積愈長——公告發布前，光是積壓的提交就高達 <strong>2,300 件</strong>。更關鍵的問題是：即便初次審查通過，<strong>後續每一次版本更新都沒有人看</strong>。而 PHANTOMPULSE 事件也讓大家意識到：即使是合法外掛，一旦被社交工程濫用，現有的安全機制根本無力應對。
   </p>
 
   <h2>新推出的安全機制</h2>
