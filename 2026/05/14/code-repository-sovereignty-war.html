@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>程式碼的家園之戰：數位主權大混戰開打了</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: #f5f0e4;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.045'/%3E%3C/svg%3E");
+      color: #1e1a12;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+      font-size: 18px;
+      line-height: 1.85;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 768px) {
+      body { font-size: 18px; }
+    }
+
+    /* ── Top Bar ── */
+    .topbar {
+      background: #1e1a12;
+      color: #f5f0e4;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar-dot { color: #c8b06a; font-size: 0.9rem; }
+
+    /* ── Hero Banner ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: -80px 0;
+      background-image: url('/images/github-exodus-banner.png');
+      background-size: cover;
+      background-position: center 30%;
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(30, 26, 18, 0.05) 0%,
+        rgba(30, 26, 18, 0.25) 50%,
+        rgba(30, 26, 18, 0.82) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2.5rem 2rem 3rem;
+      max-width: 760px;
+    }
+    .hero-label {
+      display: inline-block;
+      background: #c8b06a;
+      color: #1e1a12;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-size: clamp(1.7rem, 5vw, 2.9rem);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 0.9rem;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.65;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .hero { height: 400px; }
+      .hero-title { font-size: 1.65rem; }
+      .hero-sub { font-size: 0.95rem; }
+    }
+
+    /* ── Article Body ── */
+    .article-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+    @media (max-width: 768px) {
+      .article-wrap { padding: 2rem 1.2rem 4rem; }
+    }
+
+    /* ── Meta ── */
+    .article-meta {
+      font-size: 0.82rem;
+      color: #7a7060;
+      letter-spacing: 0.05em;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px dashed #d4c9a8;
+    }
+
+    /* ── Lead ── */
+    .lead {
+      font-size: 1.1rem;
+      font-weight: 500;
+      line-height: 1.9;
+      color: #2e2a1e;
+      background: #ede7d4;
+      border-left: 4px solid #c8b06a;
+      padding: 1.4rem 1.6rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 768px) {
+      .lead { font-size: 1.05rem; padding: 1.2rem; }
+    }
+
+    /* ── Headings ── */
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #1e1a12;
+      margin: 3.5rem 0 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #1e1a12;
+      letter-spacing: -0.01em;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #4a4030;
+      margin: 2rem 0 0.8rem;
+      letter-spacing: 0.01em;
+    }
+    @media (max-width: 768px) {
+      h2 { font-size: 1.3rem; }
+    }
+
+    p { margin-bottom: 1.3rem; }
+
+    /* ── Story card ── */
+    .story-card {
+      background: #ede7d4;
+      border: 2px solid #c8b06a;
+      border-radius: 10px;
+      padding: 1.5rem 1.8rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+    .story-card::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 6px; right: -6px; bottom: -6px;
+      background: #c8b06a;
+      border-radius: 10px;
+      z-index: -1;
+      opacity: 0.25;
+    }
+    .story-card .s-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #7a7060;
+      margin-bottom: 0.4rem;
+    }
+    .story-card .s-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #1e1a12;
+      margin-bottom: 0.5rem;
+    }
+    .story-card .s-desc {
+      font-size: 0.9rem;
+      color: #5a5040;
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .story-card { padding: 1.2rem; }
+      .story-card .s-title { font-size: 1.05rem; }
+    }
+
+    /* ── Reason lists ── */
+    .reason-list {
+      list-style: none;
+      margin: 1rem 0 1.5rem;
+    }
+    .reason-list li {
+      padding: 0.75rem 0.9rem 0.75rem 1.1rem;
+      margin-bottom: 0.5rem;
+      background: #f0ead8;
+      border-radius: 6px;
+      border-left: 3px solid #1e1a12;
+      font-size: 0.97rem;
+      line-height: 1.65;
+    }
+    .reason-list.amber li { border-left-color: #c8b06a; }
+    .reason-list.green li { border-left-color: #6b9e6e; }
+    .reason-list.red li { border-left-color: #c0503a; }
+
+    /* ── Blockquote ── */
+    blockquote {
+      background: #ede7d4;
+      border-left: 4px solid #1e1a12;
+      padding: 1.2rem 1.6rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #2e2a1e;
+      position: relative;
+    }
+    blockquote::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.3rem;
+      left: 1rem;
+      font-size: 3.5rem;
+      color: #c8b06a;
+      font-family: Georgia, serif;
+      line-height: 1;
+      opacity: 0.6;
+    }
+    blockquote p { padding-left: 1rem; margin: 0; }
+    .quote-source {
+      display: block;
+      font-size: 0.8rem;
+      color: #7a7060;
+      margin-top: 0.7rem;
+      padding-left: 1rem;
+      font-style: normal;
+    }
+
+    /* ── Section divider ── */
+    .divider {
+      border: none;
+      border-top: 2px dashed #d4c9a8;
+      margin: 3rem 0;
+    }
+
+    /* ── Analysis grid ── */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 600px) {
+      .analysis-grid { grid-template-columns: 1fr; }
+    }
+    .a-card {
+      background: #f0ead8;
+      border: 1.5px solid #c8b06a;
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+    .a-card .a-num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #c8b06a;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .a-card .a-label {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #1e1a12;
+      margin-bottom: 0.5rem;
+    }
+    .a-card p {
+      font-size: 0.85rem;
+      color: #5a5040;
+      line-height: 1.55;
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .a-card .a-num { font-size: 2rem; }
+    }
+
+    /* ── Comparison ── */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 480px) {
+      .comparison { grid-template-columns: 1fr; }
+    }
+    .c-col {
+      background: #f0ead8;
+      border: 1.5px solid #d4c9a8;
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+    .c-col .c-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.7rem;
+    }
+    .c-col.left .c-title { color: #6b9e6e; }
+    .c-col.right .c-title { color: #c0503a; }
+    .c-col p { font-size: 0.9rem; color: #5a5040; line-height: 1.6; margin: 0; }
+
+    /* ── Callout ── */
+    .callout {
+      background: #1e1a12;
+      color: #f5f0e4;
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin: 2rem 0;
+    }
+    .callout p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      margin: 0;
+      color: #f0ead8;
+    }
+    @media (max-width: 768px) {
+      .callout { padding: 1.3rem; }
+      .callout p { font-size: 1rem; }
+    }
+
+    /* ── References ── */
+    .references {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 2px dashed #d4c9a8;
+    }
+    .references .ref-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #7a7060;
+      margin-bottom: 0.8rem;
+    }
+    .references ul { list-style: none; }
+    .references li {
+      font-size: 0.85rem;
+      color: #7a7060;
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed #d4c9a8;
+    }
+    .references li:last-child { border: none; }
+
+    /* ── Links ── */
+    a {
+      color: #7a5c1e;
+      text-decoration: underline;
+      text-decoration-color: #c8b06a;
+      text-underline-offset: 3px;
+      transition: color 0.15s;
+    }
+    a:hover { color: #4a3510; text-decoration-color: #7a5c1e; }
+    .references a { color: #5a4010; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <span class="topbar-dot">◆</span>
+    <span>數位主權 · 開源 · AI</span>
+  </div>
+
+  <!-- Hero Banner -->
+  <div class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-label">數位主權</div>
+      <h1 class="hero-title">程式碼的家園之戰</h1>
+      <p class="hero-sub">從荷蘭開發者出走 GitHub，到英國 NHS 關閉公開儲存庫——一場關於程式碼該放在哪裡的大混戰，正在悄悄開打</p>
+    </div>
+  </div>
+
+  <div class="article-wrap">
+
+    <div class="article-meta">2026 年 5 月 14 日 &nbsp;·&nbsp; 數位主權 &nbsp;·&nbsp; GitHub &nbsp;·&nbsp; 開源</div>
+
+    <p class="lead">
+      全球開發者圈正在掀起一場靜默的遷徙潮。程式碼——這個現代社會的基礎建設——存在哪裡、由誰控制、能否被 AI 拿去訓練，這些問題正在迫使個人開發者、企業乃至國家級機構重新思考他們的選擇。這不是一場單一的革命，而是幾股力量同時在不同角落燃起的野火。
+    </p>
+
+    <!-- Story 1 -->
+    <h2>故事一：荷蘭開發者的出走宣言</h2>
+
+    <div class="story-card">
+      <div class="s-label">案例 · 2026 年 4 月底</div>
+      <div class="s-title">荷蘭開發者 Jorijn 離開 GitHub——和荷蘭政府做了同樣的選擇</div>
+      <p class="s-desc">他在個人部落格詳述決策過程，時間點剛好與荷蘭內政部推出自架 Forgejo 平台同一週</p>
+    </div>
+
+    <p>2026 年 4 月 27 日，荷蘭內政部悄悄上線了 <a href="https://code.overheid.nl" target="_blank" rel="noopener">code.overheid.nl</a>——一個用於托管政府開源程式碼的自架 Forgejo 實例。就在同一週，荷蘭開發者 Jorijn 也完成了自己的遷移，在<a href="https://jorijn.com/en/blog/leaving-github-for-forgejo/" target="_blank" rel="noopener">部落格詳述了決策過程</a>，將主要程式碼平台遷至自架的 <a href="https://code.jorijn.com" target="_blank" rel="noopener">code.jorijn.com</a>，跑在一台 NUC 上的 Forgejo v15 LTS。</p>
+
+    <p>Jorijn 的文章開頭一句話直接點題：「不是因為服務中斷，而是因為誰擁有在那之上運行的一切。荷蘭政府剛做了同樣的結論。」</p>
+
+    <h3>為什麼要走？</h3>
+    <ul class="reason-list red">
+      <li><strong>GitHub 的 AI 訓練政策翻轉：</strong>2026 年 4 月 24 日，GitHub 將 Copilot Free、Pro、Pro+ 的用戶互動資料預設改為「訓練 AI 用途的 opt-in」——而且沒有 repository 層級的退出選項。Jorijn 的結論：「我不擁有這個平台。荷蘭政府剛公布了同樣的結論。」</li>
+      <li><strong>GitHub 已沒有自己的 CEO：</strong>2025 年 8 月，GitHub CEO Thomas Dohmke 離職，Microsoft 沒有補位，而是將 GitHub 整併進 Microsoft 的 CoreAI 部門——也就是負責打造 Copilot 與整個 AI 技術棧的同一個組織。</li>
+      <li><strong>美國法律管轄風險：</strong>FISA Section 702 與 CLOUD Act 的管轄範圍未解。Microsoft 的律師曾在法國參議院宣誓作證時承認，他無法保證歐盟用戶的資料不受美國政府的靜默存取。</li>
+      <li><strong>持續的服務中斷：</strong>2025 年 5 月至 2026 年 4 月，GitHub 共記錄了 257 起事故、48 起重大中斷，累積約 112 小時的停機時間。GitHub CTO 公開道歉並表示容量需要擴增 30 倍才能跟上「AI Agentic Workflow」帶來的負載。</li>
+    </ul>
+
+    <h3>他選擇了 Forgejo</h3>
+    <p><a href="https://forgejo.org/" target="_blank" rel="noopener">Forgejo</a> 是完全開源、社群治理的 Git 托管平台。Jorijn 自架在一台 NUC 上，Public GitHub repositories 的計畫是在遷移完成後改為封存並指向新位置。荒蕪 GitLab 是另一個選項，但他和荷蘭政府都選了 Forgejo——因為它是完全開源的，給予數位自主所需的所有自由。</p>
+
+    <blockquote>
+      <p>服務中斷、AI 訓練的預設 opt-in、GitHub 不再有自己的 CEO——這些都只是同一個底層事實的症狀：我不擁有這個。</p>
+      <span class="quote-source">— Jorijn Schrijvershof，〈Why I'm leaving GitHub for Forgejo〉，2026 年 4 月</span>
+    </blockquote>
+
+    <hr class="divider">
+
+    <!-- Story 2 -->
+    <h2>故事二：英國 NHS 關門大吉</h2>
+
+    <div class="story-card">
+      <div class="s-label">案例 · 2026 年 5 月 5 日</div>
+      <div class="s-title">NHS England 計畫關閉所有公開 GitHub 儲存庫</div>
+      <p class="s-desc">理由是 AI 安全疑慮——開源代碼可能協助攻擊者更有效率地找到漏洞</p>
+    </div>
+
+    <p>就在同一個月，大西洋對岸傳出了截然不同、卻同樣令人矚目的消息。英國國家醫療服務體系（NHS England）宣布計畫將旗下所有公開 GitHub 儲存庫改為私有，理由是 AI 安全疑慮。</p>
+
+    <p>NHS England 在 GitHub 上的儲存庫數量達<strong>數百個</strong>，內部指引要求在 5 月 11 日前全數由公開狀態改設為私有。根據 <a href="https://www.ithome.com.tw/news/175818" target="_blank" rel="noopener">iThome 引述 The Register 的報導</a>，這份指引的導火線十分具體：文件中明確點名了 <strong>Anthropic 的 AI 模型 Mythos</strong>，指出現在的 AI 模型已能大規模擷取程式碼並進行推論與分析，公開儲存庫中的原始碼、架構決策、組態細節都可能遭到濫用。</p>
+
+    <h3>核心擔憂：AI 讓開源變危險了？</h3>
+    <ul class="reason-list amber">
+      <li><strong>AI 輔助攻擊：</strong>開源代碼可能被用於訓練 AI 模型，讓攻擊者更有效率地找到 NHS 系統的漏洞與攻擊向量</li>
+      <li><strong>能力不對稱：</strong>在 AI 能力快速演進的情況下，過去「開源促進透明與安全」的邏輯可能已被翻轉</li>
+    </ul>
+
+    <p>NHS 發言人確認了這項計畫，將其描述為「在 AI 能力持續演進的情況下，對管理開源程式碼儲存庫採取謹慎態度」。</p>
+
+    <h3>開源社群的反彈</h3>
+    <ul class="reason-list red">
+      <li><strong>「以隱晦求安全」的謬誤：</strong>安全研究者普遍認為，security through obscurity 並非可靠的防禦策略，遮蔽代碼不等於消除漏洞</li>
+      <li><strong>阻礙獨立研究：</strong>讓外部安全研究員無法審視代碼，可能反而使漏洞更難被發現和負責任地回報</li>
+      <li><strong>效果存疑：</strong>部分被關閉的 repo 本就基於廣泛流通的公開框架，轉私有的安全效益十分有限</li>
+    </ul>
+
+    <p>NHS 表示將「持續觀察情勢」，若日後能建立適當安全措施，可能重新開放。</p>
+
+    <hr class="divider">
+
+    <!-- Story 3 -->
+    <h2>故事三：Ghostty 的出走</h2>
+
+    <div class="story-card">
+      <div class="s-label">案例 · 2026 年 4 月 28 日</div>
+      <div class="s-title">知名終端機專案 Ghostty 宣布遷離 GitHub</div>
+      <p class="s-desc">作者 Mitchell Hashimoto 是 Vagrant 與 Terraform 的創始人，用 18 年的感情寫下這篇告別文</p>
+    </div>
+
+    <p>2026 年 4 月 28 日，開源終端機模擬器 <a href="https://mitchellh.com/writing/ghostty-leaving-github" target="_blank" rel="noopener">Ghostty 宣布將主要開發平台從 GitHub 遷走</a>。作者 Mitchell Hashimoto 是知名基礎設施工具 Vagrant 和 Terraform 的創始人，他在 GitHub 上是第 1299 號用戶，從 2008 年起每天都在用，超過 18 年。</p>
+
+    <p>這篇文章並非冷靜的技術評估，而更像一封充滿情緒的告別信。他寫道：「GitHub 是讓我最快樂的地方⋯⋯我愛 GitHub 的程度超過一個人應該愛一件事的程度，而我現在對它很憤怒。」</p>
+
+    <h3>為什麼要走？</h3>
+
+    <ul class="reason-list red">
+      <li>
+        <strong>GitHub 頻繁出狀況：</strong>Mitchell 連續一個月記錄每天 GitHub 故障影響工作的日期，幾乎每天都有。就在他寫下這篇文章的當天，GitHub Actions 就已中斷超過兩小時，讓他無法進行任何 PR review。
+      </li>
+      <li>
+        <strong>平台已不再是嚴肅工作的場所：</strong>「如果一個平台每天都把你擋在門外好幾個小時，它就不再是能做嚴肅工作的地方了。」
+      </li>
+      <li>
+        <strong>AI 訓練數據問題：</strong>GitHub 將 Copilot 訓練政策改為 opt-out，而 Ghostty 的過去貢獻者們從未同意這件事。他的立場簡潔有力：<em>「追溯同意，不算同意（Retroactive consent is not consent）。」</em>
+      </li>
+    </ul>
+
+    <p>Mitchell 表示，Ghostty 將保留 GitHub 唯讀鏡像，但具體搬遷目的地仍在評估中（包含商業與開源方案）。他的個人專案暫時留在 GitHub，Ghostty 是第一步。</p>
+
+    <blockquote>
+      <p>我可以繼續等它變好，但我也想寫程式。而我再也無法用 GitHub 寫程式了。對不起。在 18 年之後，我得走了。</p>
+      <span class="quote-source">— Mitchell Hashimoto，〈Ghostty Is Leaving GitHub〉，2026 年 4 月 28 日</span>
+    </blockquote>
+
+    <hr class="divider">
+
+    <!-- Analysis -->
+    <h2>深度分析：這不是孤立事件</h2>
+
+    <p>Jorijn 的個人選擇和 NHS 的機構決策，表面上看似截然不同，但背後其實是三股力量同時湧起、交匯的結果。</p>
+
+    <div class="analysis-grid">
+      <div class="a-card">
+        <div class="a-num">①</div>
+        <div class="a-label">AI 訓練數據焦慮</div>
+        <p>GitHub 上的程式碼已被大量用於訓練 Copilot 等工具。開發者發現自己的勞動成果在不知情的情況下成為商業 AI 的養料，不滿情緒正在累積。</p>
+      </div>
+      <div class="a-card">
+        <div class="a-num">②</div>
+        <div class="a-label">數位主權意識崛起</div>
+        <p>後 GDPR 的歐洲對數據主權高度敏感。越來越多機構在問：「我的基礎設施能否不依賴美國科技公司？」替代方案因此備受關注。</p>
+      </div>
+      <div class="a-card">
+        <div class="a-num">③</div>
+        <div class="a-label">公共機構的 AI 安全恐慌</div>
+        <p>NHS 代表一種新型焦慮：「開源讓 AI 有更多攻擊面」的反轉思維。若此邏輯蔓延，將深刻改變各國政府的開源策略。</p>
+      </div>
+    </div>
+
+    <h3>兩條分叉的路，同樣的出發點</h3>
+
+    <div class="comparison">
+      <div class="c-col left">
+        <div class="c-title">🟢 個人 / 小型開發者</div>
+        <p>追求自主、對齊開源價值，往 self-hosted 方向走。目標：從 GitHub 的中心化中解放，回到「我掌控我的工具」的狀態。</p>
+      </div>
+      <div class="c-col right">
+        <div class="c-title">🔴 大型機構 / 公共部門</div>
+        <p>以安全之名，往封閉、私有化方向走。同樣是逃離中心化，但是為了鎖住代碼，而非解放它。</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>這兩個方向都在「逃離」GitHub 的中心化，但出於截然不同的理由、走向截然不同的結果。一個是為了自由，一個是為了封鎖。吊詭的是，他們恰好站在開源精神的兩個對立端點上。</p>
+    </div>
+
+    <hr class="divider">
+
+    <h2>程式碼的家住在哪裡？</h2>
+
+    <p>GitHub 如今擁有超過 1 億開發者，是全球最大的程式碼托管平台。但它同時也是 Microsoft 的資產、Copilot 的訓練場、美國法律管轄的平台。這些事實一直存在，只是過去沒有人特別在意。</p>
+
+    <p>現在，AI 的崛起把這些問題全部從水面下逼了上來。</p>
+
+    <p>這場混戰還在初期。Forgejo、Codeberg、Gitea、自架 GitLab——替代方案都存在，但沒有一個擁有 GitHub 的網路效應。NHS 的做法會不會成為各國公共機構的模板？歐盟的數位主權政策會不會逼出更多「官方出走」？</p>
+
+    <p>可以預見的是：接下來幾年，「你的程式碼放在哪裡」這個問題，將不再只是技術決策，而是政治、商業與倫理的多重交匯點。</p>
+
+    <blockquote>
+      <p>當程式碼成為基礎建設，托管程式碼的平台就成了基礎建設的基礎建設。我們從未認真討論過，這樣的權力該被誰掌握。</p>
+      <span class="quote-source">— 無名氏，某個 Hacker News 留言區</span>
+    </blockquote>
+
+    <div class="references">
+      <div class="ref-label">參考資料</div>
+      <ul>
+        <li><a href="https://jorijn.com/en/blog/leaving-github-for-forgejo/" target="_blank" rel="noopener">Jorijn Schrijvershof — "Why I'm leaving GitHub for Forgejo"（2026 年 4 月）</a></li>
+        <li><a href="https://code.overheid.nl" target="_blank" rel="noopener">荷蘭內政部 — code.overheid.nl 自架 Forgejo 平台（2026 年 4 月 27 日上線）</a></li>
+        <li><a href="https://mitchellh.com/writing/ghostty-leaving-github" target="_blank" rel="noopener">Mitchell Hashimoto — "Ghostty Is Leaving GitHub"（2026 年 4 月 28 日）</a></li>
+        <li><a href="https://www.theregister.com/software/2026/05/05/nhs-to-close-source-github-repos-over-ai-security-concerns/5224392" target="_blank" rel="noopener">The Register — "NHS to close-source GitHub repos over AI security concerns"（2026 年 5 月 5 日）</a></li>
+        <li><a href="https://www.ithome.com.tw/news/175818" target="_blank" rel="noopener">iThome — NHS GitHub 儲存庫事件報導（2026 年）</a></li>
+        <li><a href="https://news.ycombinator.com/item?id=43832086" target="_blank" rel="noopener">Hacker News — discussion on "Leaving GitHub for Forgejo"</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    // Subtle parallax on hero bg
+    const heroBg = document.getElementById('heroBg');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          if (heroBg) heroBg.style.transform = `translateY(${y * 0.35}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
+
+</body>
+</html>
